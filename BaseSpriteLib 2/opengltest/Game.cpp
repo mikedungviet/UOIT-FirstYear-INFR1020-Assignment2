@@ -38,17 +38,17 @@ Game::~Game(void)
  */
 void Game::initializeGame()
 {
-	/* this is a sprite without any animations, it is just an image */
-	testSprite = new Sprite("images/redbird.png");
-	testSprite->setNumberOfAnimations(1);
-	testSprite->setSpriteFrameSize(148,125);
-	testSprite->addSpriteAnimFrame(0,0,0);
-	testSprite->setPosition(100,200);
-	testSprite->setCenter(148/2,125/2); // center of the sprites origin for rotation
-	testSprite->setLayerID(3);
+	//Initalize Space Ship
+	spaceShip = new Sprite("images/redbird.png");
+	spaceShip->setNumberOfAnimations(1);
+	spaceShip->setSpriteFrameSize(148, 125);
+	spaceShip->addSpriteAnimFrame(0, 0, 0);
+	spaceShip->setPosition(100, 300);
+	spaceShip->setCenter(148 / 2, 125 / 2); // center of the sprites origin for rotation
+	spaceShip->setLayerID(3);
+	this->addSpriteToDrawList(spaceShip); //Add to drawing list
 
-	/* add it to our list so we can draw it */
-	this->addSpriteToDrawList(testSprite);
+	
 
 	///* load the background */
 	bg = new HorizontalScrollingBackground("images/BG.png",stateInfo.windowWidth,stateInfo.windowHeight);
@@ -158,7 +158,21 @@ void Game::drawTestPrimitives()
 		setLineWidth(1.f);
 	}
 }
-
+/*
+*/
+void Game::ProcessKeyboardInput(Sprite *sprite) {
+	const float appliedForce = 50;
+	if (input.upKeyArrow)
+		sprite->force.set(appliedForce* sin(sprite->getOrientation() / 180 * M_PI),
+			appliedForce* cos(sprite->getOrientation() / 180 * M_PI),0);
+	if (input.downKeyArrow)
+		sprite->force.set(appliedForce * -sin(sprite->getOrientation() / 180 * M_PI),
+			appliedForce*-cos(sprite->getOrientation() / 180 * M_PI), 0);
+	if (input.leftKeyArrow)
+		sprite->addOrientation(15.0f);
+	if (input.rightKeyArrow)
+		sprite->addOrientation(-15.0f);
+}
 /* update()
   - this function is essentially the game loop
     it gets called often and as such you
@@ -173,14 +187,15 @@ void Game::update()
 	// update our clock so we have the delta time since the last update
 	updateTimer->tick();
 	
-	Vector3 gravity;
+	/*Vector3 gravity;
 	gravity.set(0, -100, 0);
-	testSprite->addForce(gravity);
+	spaceShip->addForce(gravity);*/
 
-
+	ProcessKeyboardInput(spaceShip);
 	/* you should probably update all of the sprites in a list just like the drawing */
 	/* maybe two lists, one for physics updates and another for sprite animation frame update */
-	testSprite->update(updateTimer->getElapsedTimeSeconds());
+	float deltaTime = updateTimer->getElapsedTimeSeconds();
+	spaceShip->update(deltaTime);
 }
 
 /* 
@@ -210,16 +225,28 @@ void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
 	switch(key)
 	{
 	case 'r':  // reset position, velocity, and force
-		testSprite->position.set(100, 100, 0);
-		testSprite->velocity.set(0, 0, 0);
-		testSprite->acceleration.set(0, 0, 0);
-		testSprite->force.set(0, 0, 0);
+		spaceShip->position.set(100, 100, 0);
+		spaceShip->velocity.set(0, 0, 0);
+		spaceShip->acceleration.set(0, 0, 0);
+		spaceShip->force.set(0, 0, 0);
 		break;
 	case 32: // the space bar
 		break;
 	case 27: // the escape key
 	case 'q': // the 'q' key
 		exit(1);
+		break;
+	case 'w':
+		input.upKeyArrow = true;
+		break;
+	case's':
+		input.downKeyArrow = true;
+		break;
+	case'a':
+		input.leftKeyArrow = true;
+		break;
+	case'd':
+		input.rightKeyArrow = true;
 		break;
 	}
 }
@@ -237,6 +264,18 @@ void Game::keyboardUp(unsigned char key, int mouseX, int mouseY)
 	case 27: // the escape key
 	case 'q': // the 'q' key
 		exit(1);
+		break;
+	case 'w':
+		input.upKeyArrow = false;
+		break;
+	case's':
+		input.downKeyArrow = false;
+		break;
+	case'a':
+		input.leftKeyArrow = false;
+		break;
+	case'd':
+		input.rightKeyArrow = false;
 		break;
 	}
 }
@@ -273,7 +312,7 @@ void Game::mouseClicked(int button, int state, int x, int y)
 		Vector3 f;
 		f.set(input.currentX - input.clickX, input.currentY - input.clickY, 0);
 		f = f * 20.f;
-		testSprite->addForce(f);
+		spaceShip->addForce(f);
 		
 		input.mouseDown = false;
 	}

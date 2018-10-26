@@ -43,6 +43,12 @@ typedef struct _InputInfo
 	int button; // which mouse button
 	float clickX,clickY; // where the mouse was clicked
 	float currentX,currentY;
+
+	bool upKeyArrow = false;
+	bool downKeyArrow = false;
+	bool leftKeyArrow = false;
+	bool rightKeyArrow = false;
+
 }InputInfo;
 
 // convenience structure to hold rgb values
@@ -130,7 +136,7 @@ public:
 	void keyboardUp(unsigned char key, int mouseX, int mouseY);
 	void mouseClicked(int button, int state, int x, int y);
 	void mouseMoved(int x, int y);
-
+	void ProcessKeyboardInput(Sprite*);
 	/*********************************/
 	/* DATA */
 	/*********************************/
@@ -140,7 +146,8 @@ public:
 
 	// here is the sprite to draw to the screen
 	Sprite *testSprite;
-
+	Sprite *spaceShip;
+	
 	// the background scroller
 	HorizontalScrollingBackground *bg;
 

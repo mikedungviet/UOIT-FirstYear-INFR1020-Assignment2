@@ -96,8 +96,8 @@ public:
 		position.y = y;
 		position.z = 0;
 	}
-	void setOrientation(float _theta) {
-		theta = _theta;
+	void addOrientation(float _theta) {
+		theta += _theta;
 	}
 	float getOrientation() {return theta;}
 

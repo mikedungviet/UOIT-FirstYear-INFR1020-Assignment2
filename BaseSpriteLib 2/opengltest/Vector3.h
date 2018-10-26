@@ -1,20 +1,32 @@
 #pragma once
+#include <cmath>
 class Vector3
 {
 public:
-	Vector3();
-	Vector3(float X,float Y, float Z):x(X),y(Y),z(Z) {}
-	~Vector3();
-	void set(float X, float Y, float Z) { x = X; y = Y;z = Z; }
+	Vector3() {}
+	Vector3(float X, float Y, float Z) :x(X), y(Y), z(Z) {
+	
+	}
+	~Vector3() {}
+
+
+	/*
+		This function sets the values for vectors
+	*/
+	void set(float X, float Y, float Z) {
+		x = X;
+		y = Y;
+		z = Z;
+	}
 
 	// operator overloading
 	// this is just scalar multiplication
 	Vector3 operator*(const float scalar) const
-	{ 
+	{
 		Vector3 result;
-		result.x = x*scalar;
-		result.y = y*scalar;
-		result.z = z*scalar;
+		result.x = x * scalar;
+		result.y = y * scalar;
+		result.z = z * scalar;
 		return result;
 	}
 
@@ -29,6 +41,22 @@ public:
 		return result;
 	}
 
+	/*
+		This function divides a vector with a scalar
+		@param const scalar The magnitude to be divided by
+		@return Returns the result
+	*/
+	Vector3 operator/ (const float scalar) const {
+		Vector3 result;
+		result.x = x / scalar;
+		result.y = y / scalar;
+		result.z = z / scalar;
+		return result;
+	}
+
+	//Member Functions
+	float GetLength();
+	Vector3 NormalizeVector(float);
 
 	// its a 3D vector, here is the data!
 	float x, y, z;
