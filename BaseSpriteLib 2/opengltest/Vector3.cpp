@@ -12,6 +12,6 @@ float Vector3::GetLength() {
 	This function calculates the normalize vector
 	@return Return the dimension as a normalized vector
 */
-Vector3 Vector3::NormalizeVector(float length)  {
+Vector3 Vector3::NormalizeVector()  {
 	return *this / this ->GetLength();
 }

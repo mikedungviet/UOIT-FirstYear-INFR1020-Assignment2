@@ -56,7 +56,7 @@ public:
 
 	//Member Functions
 	float GetLength();
-	Vector3 NormalizeVector(float);
+	Vector3 NormalizeVector();
 
 	// its a 3D vector, here is the data!
 	float x, y, z;

@@ -39,12 +39,12 @@ Game::~Game(void)
 void Game::initializeGame()
 {
 	//Initalize Space Ship
-	spaceShip = new Sprite("images/redbird.png");
+	spaceShip = new SpaceShip("images/SpaceShip.png");
 	spaceShip->setNumberOfAnimations(1);
-	spaceShip->setSpriteFrameSize(148, 125);
+	spaceShip->setSpriteFrameSize(21, 31);
 	spaceShip->addSpriteAnimFrame(0, 0, 0);
 	spaceShip->setPosition(100, 300);
-	spaceShip->setCenter(148 / 2, 125 / 2); // center of the sprites origin for rotation
+	spaceShip->setCenter(21 / 2, 31 / 2); // center of the sprites origin for rotation
 	spaceShip->setLayerID(3);
 	this->addSpriteToDrawList(spaceShip); //Add to drawing list
 
@@ -159,19 +159,30 @@ void Game::drawTestPrimitives()
 	}
 }
 /*
+	This function process all keyboards input
 */
-void Game::ProcessKeyboardInput(Sprite *sprite) {
+void Game::ProcessKeyboardInput(SpaceShip *sprite) {
 	const float appliedForce = 50;
 	if (input.upKeyArrow)
-		sprite->force.set(appliedForce* sin(sprite->getOrientation() / 180 * M_PI),
-			appliedForce* cos(sprite->getOrientation() / 180 * M_PI),0);
+		/*spaceShip->force.set(appliedForce* -sin(sprite->getOrientation() / 180 * M_PI),
+			appliedForce* cos(sprite->getOrientation() / 180 * M_PI),0);*/
+
+		spaceShip->force.set(0, 100, 0);
+	else if (!(input.upKeyArrow))
+		spaceShip->force.set(0, 0, 0);
+
 	if (input.downKeyArrow)
-		sprite->force.set(appliedForce * -sin(sprite->getOrientation() / 180 * M_PI),
+		spaceShip->force.set(appliedForce * sin(sprite->getOrientation() / 180 * M_PI),
 			appliedForce*-cos(sprite->getOrientation() / 180 * M_PI), 0);
+	else if (!(input.downKeyArrow))
+		spaceShip->force.set(0, 0, 0);
+
+
 	if (input.leftKeyArrow)
-		sprite->addOrientation(15.0f);
+		spaceShip->addOrientation(10.0f);
 	if (input.rightKeyArrow)
-		sprite->addOrientation(-15.0f);
+		spaceShip->addOrientation(-10.0f);
+
 }
 /* update()
   - this function is essentially the game loop
@@ -186,16 +197,15 @@ void Game::update()
 {
 	// update our clock so we have the delta time since the last update
 	updateTimer->tick();
-	
-	/*Vector3 gravity;
-	gravity.set(0, -100, 0);
-	spaceShip->addForce(gravity);*/
-
-	ProcessKeyboardInput(spaceShip);
-	/* you should probably update all of the sprites in a list just like the drawing */
-	/* maybe two lists, one for physics updates and another for sprite animation frame update */
 	float deltaTime = updateTimer->getElapsedTimeSeconds();
+
+	//Get any keyboard keys
+	ProcessKeyboardInput(spaceShip);
+	
+	//Update every object in the game
 	spaceShip->update(deltaTime);
+
+	//Check for collision
 }
 
 /* 
