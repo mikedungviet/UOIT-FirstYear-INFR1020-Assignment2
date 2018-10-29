@@ -107,22 +107,6 @@ void WindowReshapeCallbackFunction(int w,int h)
 	glLoadIdentity();
 }
 
-void MouseClickCallbackFunction(int button, int state, int x, int y)
-{
-	theGame->mouseClicked(button,state,x,y);
-	glutPostRedisplay();
-}
-
-
-/* function MouseMotionCallbackFunction()
- * Description:
- *   - this is called when the mouse is clicked and moves
- */
-void MouseMotionCallbackFunction(int x, int y)
-{
-	theGame->mouseMoved(x,y);
-	glutPostRedisplay();
-}
 
 /* function main()
  * Description:
@@ -142,8 +126,6 @@ int main(int argc, char **argv)
 	glutKeyboardFunc(KeyboardCallbackFunction);
 	glutKeyboardUpFunc(KeyboardUpCallbackFunction);
 	glutReshapeFunc(WindowReshapeCallbackFunction);
-	glutMouseFunc(MouseClickCallbackFunction);
-	glutMotionFunc(MouseMotionCallbackFunction);
 	glutTimerFunc(1,TimerCallbackFunction,0);
 	
 	/* initialize the image library engine */

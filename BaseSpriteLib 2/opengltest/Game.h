@@ -12,7 +12,7 @@
 #include "IL/ilu.h"
 #include "IL/ilut.h"
 #include "Sprite.h"
-#include "SpaceShip.h"
+#include "Bullet.h"
 #include "HorizontalScrollingBackground.h"
 #include "Timer.h"
 #include <algorithm>
@@ -137,7 +137,6 @@ public:
 	void keyboardUp(unsigned char key, int mouseX, int mouseY);
 	void mouseClicked(int button, int state, int x, int y);
 	void mouseMoved(int x, int y);
-	void ProcessKeyboardInput(SpaceShip*);
 	/*********************************/
 	/* DATA */
 	/*********************************/
@@ -146,7 +145,7 @@ public:
 	GameStateInfo stateInfo;
 
 	// here is the sprite to draw to the screen
-	SpaceShip *spaceShip;
+	
 	
 	// the background scroller
 	HorizontalScrollingBackground *bg;
