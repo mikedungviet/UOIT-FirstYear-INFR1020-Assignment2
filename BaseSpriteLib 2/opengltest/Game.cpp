@@ -39,14 +39,7 @@ Game::~Game(void)
 void Game::initializeGame()
 {
 	//Initalize Space Ship
-	spaceShip = new SpaceShip("images/SpaceShip.png");
-	spaceShip->setNumberOfAnimations(1);
-	spaceShip->setSpriteFrameSize(21, 31);
-	spaceShip->addSpriteAnimFrame(0, 0, 0);
-	spaceShip->setPosition(100, 300);
-	spaceShip->setCenter(21 / 2, 31 / 2); // center of the sprites origin for rotation
-	spaceShip->setLayerID(3);
-	this->addSpriteToDrawList(spaceShip); //Add to drawing list
+	
 
 	
 
@@ -158,32 +151,6 @@ void Game::drawTestPrimitives()
 		setLineWidth(1.f);
 	}
 }
-/*
-	This function process all keyboards input
-*/
-void Game::ProcessKeyboardInput(SpaceShip *sprite) {
-	const float appliedForce = 50;
-	if (input.upKeyArrow)
-		/*spaceShip->force.set(appliedForce* -sin(sprite->getOrientation() / 180 * M_PI),
-			appliedForce* cos(sprite->getOrientation() / 180 * M_PI),0);*/
-
-		spaceShip->force.set(0, 100, 0);
-	else if (!(input.upKeyArrow))
-		spaceShip->force.set(0, 0, 0);
-
-	if (input.downKeyArrow)
-		spaceShip->force.set(appliedForce * sin(sprite->getOrientation() / 180 * M_PI),
-			appliedForce*-cos(sprite->getOrientation() / 180 * M_PI), 0);
-	else if (!(input.downKeyArrow))
-		spaceShip->force.set(0, 0, 0);
-
-
-	if (input.leftKeyArrow)
-		spaceShip->addOrientation(10.0f);
-	if (input.rightKeyArrow)
-		spaceShip->addOrientation(-10.0f);
-
-}
 /* update()
   - this function is essentially the game loop
     it gets called often and as such you
@@ -199,11 +166,9 @@ void Game::update()
 	updateTimer->tick();
 	float deltaTime = updateTimer->getElapsedTimeSeconds();
 
-	//Get any keyboard keys
-	ProcessKeyboardInput(spaceShip);
 	
 	//Update every object in the game
-	spaceShip->update(deltaTime);
+	
 
 	//Check for collision
 }
@@ -235,10 +200,6 @@ void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
 	switch(key)
 	{
 	case 'r':  // reset position, velocity, and force
-		spaceShip->position.set(100, 100, 0);
-		spaceShip->velocity.set(0, 0, 0);
-		spaceShip->acceleration.set(0, 0, 0);
-		spaceShip->force.set(0, 0, 0);
 		break;
 	case 32: // the space bar
 		break;
@@ -287,67 +248,5 @@ void Game::keyboardUp(unsigned char key, int mouseX, int mouseY)
 	case'd':
 		input.rightKeyArrow = false;
 		break;
-	}
-}
-
-/*
- * mouseClicked
- * - this function is called when the mouse is clicked and it handles the 
- *   input state managment
- */
-void Game::mouseClicked(int button, int state, int x, int y)
-{
-	if(state == GLUT_DOWN) 
-	{
-		input.mouseDown = true;
-		input.clickX = x*stateInfo.ratioWidth;
-		input.clickY = (stateInfo.windowHeight-y)*stateInfo.ratioHeight;
-		input.button = button;
-
-		switch(button)
-		{
-		case GLUT_LEFT_BUTTON:
-			
-			break;
-		case GLUT_RIGHT_BUTTON:
-		
-			break;
-		case GLUT_MIDDLE_BUTTON:
-			break;
-		}
-	}
-	else
-	{
-		/* set force */
-		Vector3 f;
-		f.set(input.currentX - input.clickX, input.currentY - input.clickY, 0);
-		f = f * 20.f;
-		spaceShip->addForce(f);
-		
-		input.mouseDown = false;
-	}
-
-}
-
-/*
- * mouseMoved(x,y)
- * - this occurs only when the mouse is pressed down
- *   and the mouse has moved.  you are given the x,y locations
- *   in window coordinates (from the top left corner) and thus 
- *   must be converted to screen coordinates using the screen to window pixels ratio
- *   and the y must be flipped to make the bottom left corner the origin.
- */
-void Game::mouseMoved(int x, int y)
-{
-	/* convert from window to screen pixel coordinates */
-	input.currentX = x*stateInfo.ratioWidth;
-	input.currentY = (stateInfo.windowHeight-y)*stateInfo.ratioHeight;
-	
-	if(input.mouseDown)
-	{
-		if(input.button == GLUT_LEFT_BUTTON)
-		{
-			// nothing yet
-		}
 	}
 }

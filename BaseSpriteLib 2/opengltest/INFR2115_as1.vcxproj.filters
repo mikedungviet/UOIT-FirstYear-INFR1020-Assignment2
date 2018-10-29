@@ -33,14 +33,8 @@
     <ClCompile Include="Vector3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SpaceShip.cpp">
-      <Filter>Sprite Base Class and Child Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Sprite Base Class and Child Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -62,14 +56,8 @@
     <ClInclude Include="Vector3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpaceShip.h">
-      <Filter>Sprite Base Class and Child Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Sprite Base Class and Child Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
