@@ -38,17 +38,10 @@ Game::~Game(void)
  */
 void Game::initializeGame()
 {
-	/* this is a sprite without any animations, it is just an image */
-	testSprite = new Sprite("images/redbird.png");
-	testSprite->setNumberOfAnimations(1);
-	testSprite->setSpriteFrameSize(148,125);
-	testSprite->addSpriteAnimFrame(0,0,0);
-	testSprite->setPosition(100,200);
-	testSprite->setCenter(148/2,125/2); // center of the sprites origin for rotation
-	testSprite->setLayerID(3);
+	//Initalize Space Ship
+	
 
-	/* add it to our list so we can draw it */
-	this->addSpriteToDrawList(testSprite);
+	
 
 	///* load the background */
 	bg = new HorizontalScrollingBackground("images/BG.png",stateInfo.windowWidth,stateInfo.windowHeight);
@@ -158,7 +151,6 @@ void Game::drawTestPrimitives()
 		setLineWidth(1.f);
 	}
 }
-
 /* update()
   - this function is essentially the game loop
     it gets called often and as such you
@@ -172,15 +164,13 @@ void Game::update()
 {
 	// update our clock so we have the delta time since the last update
 	updateTimer->tick();
+	float deltaTime = updateTimer->getElapsedTimeSeconds();
+
 	
-	Vector3 gravity;
-	gravity.set(0, -100, 0);
-	testSprite->addForce(gravity);
+	//Update every object in the game
+	
 
-
-	/* you should probably update all of the sprites in a list just like the drawing */
-	/* maybe two lists, one for physics updates and another for sprite animation frame update */
-	testSprite->update(updateTimer->getElapsedTimeSeconds());
+	//Check for collision
 }
 
 /* 
@@ -210,16 +200,24 @@ void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
 	switch(key)
 	{
 	case 'r':  // reset position, velocity, and force
-		testSprite->position.set(100, 100, 0);
-		testSprite->velocity.set(0, 0, 0);
-		testSprite->acceleration.set(0, 0, 0);
-		testSprite->force.set(0, 0, 0);
 		break;
 	case 32: // the space bar
 		break;
 	case 27: // the escape key
 	case 'q': // the 'q' key
 		exit(1);
+		break;
+	case 'w':
+		input.upKeyArrow = true;
+		break;
+	case's':
+		input.downKeyArrow = true;
+		break;
+	case'a':
+		input.leftKeyArrow = true;
+		break;
+	case'd':
+		input.rightKeyArrow = true;
 		break;
 	}
 }
@@ -238,67 +236,17 @@ void Game::keyboardUp(unsigned char key, int mouseX, int mouseY)
 	case 'q': // the 'q' key
 		exit(1);
 		break;
-	}
-}
-
-/*
- * mouseClicked
- * - this function is called when the mouse is clicked and it handles the 
- *   input state managment
- */
-void Game::mouseClicked(int button, int state, int x, int y)
-{
-	if(state == GLUT_DOWN) 
-	{
-		input.mouseDown = true;
-		input.clickX = x*stateInfo.ratioWidth;
-		input.clickY = (stateInfo.windowHeight-y)*stateInfo.ratioHeight;
-		input.button = button;
-
-		switch(button)
-		{
-		case GLUT_LEFT_BUTTON:
-			
-			break;
-		case GLUT_RIGHT_BUTTON:
-		
-			break;
-		case GLUT_MIDDLE_BUTTON:
-			break;
-		}
-	}
-	else
-	{
-		/* set force */
-		Vector3 f;
-		f.set(input.currentX - input.clickX, input.currentY - input.clickY, 0);
-		f = f * 20.f;
-		testSprite->addForce(f);
-		
-		input.mouseDown = false;
-	}
-
-}
-
-/*
- * mouseMoved(x,y)
- * - this occurs only when the mouse is pressed down
- *   and the mouse has moved.  you are given the x,y locations
- *   in window coordinates (from the top left corner) and thus 
- *   must be converted to screen coordinates using the screen to window pixels ratio
- *   and the y must be flipped to make the bottom left corner the origin.
- */
-void Game::mouseMoved(int x, int y)
-{
-	/* convert from window to screen pixel coordinates */
-	input.currentX = x*stateInfo.ratioWidth;
-	input.currentY = (stateInfo.windowHeight-y)*stateInfo.ratioHeight;
-	
-	if(input.mouseDown)
-	{
-		if(input.button == GLUT_LEFT_BUTTON)
-		{
-			// nothing yet
-		}
+	case 'w':
+		input.upKeyArrow = false;
+		break;
+	case's':
+		input.downKeyArrow = false;
+		break;
+	case'a':
+		input.leftKeyArrow = false;
+		break;
+	case'd':
+		input.rightKeyArrow = false;
+		break;
 	}
 }

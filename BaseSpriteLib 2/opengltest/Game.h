@@ -12,6 +12,7 @@
 #include "IL/ilu.h"
 #include "IL/ilut.h"
 #include "Sprite.h"
+#include "Bullet.h"
 #include "HorizontalScrollingBackground.h"
 #include "Timer.h"
 #include <algorithm>
@@ -43,6 +44,12 @@ typedef struct _InputInfo
 	int button; // which mouse button
 	float clickX,clickY; // where the mouse was clicked
 	float currentX,currentY;
+
+	bool upKeyArrow = false;
+	bool downKeyArrow = false;
+	bool leftKeyArrow = false;
+	bool rightKeyArrow = false;
+
 }InputInfo;
 
 // convenience structure to hold rgb values
@@ -130,7 +137,6 @@ public:
 	void keyboardUp(unsigned char key, int mouseX, int mouseY);
 	void mouseClicked(int button, int state, int x, int y);
 	void mouseMoved(int x, int y);
-
 	/*********************************/
 	/* DATA */
 	/*********************************/
@@ -139,8 +145,8 @@ public:
 	GameStateInfo stateInfo;
 
 	// here is the sprite to draw to the screen
-	Sprite *testSprite;
-
+	
+	
 	// the background scroller
 	HorizontalScrollingBackground *bg;
 

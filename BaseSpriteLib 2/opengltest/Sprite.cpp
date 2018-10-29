@@ -25,19 +25,29 @@ void Sprite::addForce(Vector3 f)
 /* update()
 * - this function could update things like physics and position
 */
-void Sprite::update(float dt)
+void Sprite::update(float deltaTime)
 {
 	// physics update goes here!!!!
+	acceleration = force; //update new acceleration
+	velocity = velocity + acceleration * deltaTime; //update new velocity
+	position = position + velocity * deltaTime; //update new position
 
 	// this should be collisions here!  
 	// but for this example, just checking if we are at a particular pixel location on Y is fine....
-	if (position.y <= 100)
-	{
-		position.y = 100;
-		velocity.set(0, 0, 0);
-		acceleration.set(0, 0, 0);
-		force.set(0, 0, 0);
+	if (position.y <= -105){
+		position.y = 455;
 	}
+	if (position.y >= 456) {
+		position.y = -104;
+	}
+
+	if (position.x >= 1200) {
+		position.x = -114;
+	}
+	if (position.x < -115) {
+		position.x = 1199;
+	}
+	
 }
 
 
