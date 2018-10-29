@@ -3,7 +3,8 @@
 /* THE SPRITE CLASS DEFINITION */
 Sprite::Sprite(std::string spriteSheetFilename)
 {
-	this->loadSpriteSheet(spriteSheetFilename.c_str());
+	fileName = spriteSheetFilename;
+	this->loadSpriteSheet(fileName.c_str());
 	currentAnimation = 0;
 	layerID = 0;
 	theta = 0;
@@ -13,6 +14,22 @@ Sprite::Sprite(std::string spriteSheetFilename)
 	velocity.set(0, 0, 0);
 	acceleration.set(0, 0, 0);
 	force.set(0, 0, 0);
+	mass = 1;
+}
+
+//Copy Constructor
+Sprite::Sprite(const Sprite &copySprite) {
+	this->loadSpriteSheet(fileName.c_str());
+	currentAnimation = copySprite.currentAnimation;
+	layerID = copySprite.layerID;
+	theta = copySprite.theta;
+	centerX = copySprite.centerY;
+	centerY = copySprite.centerY;
+
+	position.set(copySprite.position);
+	velocity.set(copySprite.velocity);
+	acceleration.set(copySprite.acceleration);
+	force.set(copySprite.force);
 	mass = 1;
 }
 

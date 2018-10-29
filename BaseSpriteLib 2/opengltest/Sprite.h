@@ -75,6 +75,7 @@ class Sprite
 {
 public:
 	Sprite(std::string spriteSheetFilename);
+	Sprite(const Sprite&);
 	~Sprite(void);
 
 	void loadSpriteSheet(const char *filename);
@@ -122,6 +123,7 @@ public:
 	SpriteSheetInfo sheet;
 	int numberOfAnimations;
 	int currentAnimation;
+	std::string fileName;
 
 	/* position/center/orientation */
 	/* these should be VECTORS! */

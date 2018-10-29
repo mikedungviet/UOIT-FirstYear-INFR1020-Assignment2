@@ -49,6 +49,7 @@ typedef struct _InputInfo
 	bool downKeyArrow = false;
 	bool leftKeyArrow = false;
 	bool rightKeyArrow = false;
+	bool spaceKey = false;
 
 }InputInfo;
 
@@ -130,13 +131,12 @@ public:
 	void drawTestPrimitives(); // test function
 
 	/* update routines, the game loop */
+	void ProcessKeyInput();
 	void update(); // called from main frequently
 
 	/* input callback functions */
 	void keyboardDown(unsigned char key, int mouseX, int mouseY);
 	void keyboardUp(unsigned char key, int mouseX, int mouseY);
-	void mouseClicked(int button, int state, int x, int y);
-	void mouseMoved(int x, int y);
 	/*********************************/
 	/* DATA */
 	/*********************************/
@@ -145,6 +145,8 @@ public:
 	GameStateInfo stateInfo;
 
 	// here is the sprite to draw to the screen
+	Bullet *defaultBullet;
+	std::vector<Bullet*> bulletList;
 	
 	
 	// the background scroller

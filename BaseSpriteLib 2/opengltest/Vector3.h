@@ -19,6 +19,12 @@ public:
 		z = Z;
 	}
 
+	void set(Vector3 anotherVec) {
+		x = anotherVec.x;
+		y = anotherVec.y;
+		z = anotherVec.z;
+	}
+
 	// operator overloading
 	// this is just scalar multiplication
 	Vector3 operator*(const float scalar) const
