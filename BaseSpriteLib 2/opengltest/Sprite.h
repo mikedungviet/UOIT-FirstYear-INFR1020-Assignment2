@@ -88,7 +88,8 @@ public:
 	}
 
 	void setCenter(float x, float y) {
-		centerX = x; centerY = y;
+		centerX = x; 
+		centerY = y;
 	}
 	void setPosition(float x, float y) {
 		positionX = x; positionY = y;
@@ -110,7 +111,7 @@ public:
 	}
 	/* update */
 	void addForce(Vector3 v);
-	virtual void update(float dt);
+	virtual void update(float);
 
 	void nextFrame(){
 		animations[currentAnimation]->nextFrame();
