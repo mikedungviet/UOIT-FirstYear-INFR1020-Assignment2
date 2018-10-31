@@ -13,6 +13,7 @@
 #include "IL/ilut.h"
 #include "Sprite.h"
 #include "Bullet.h"
+#include "SpaceShip.h"
 #include "HorizontalScrollingBackground.h"
 #include "Timer.h"
 #include <algorithm>
@@ -147,6 +148,7 @@ public:
 	// here is the sprite to draw to the screen
 	Bullet *defaultBullet;
 	std::vector<Bullet*> bulletList;
+	SpaceShip *spaceShip;
 	
 	
 	// the background scroller

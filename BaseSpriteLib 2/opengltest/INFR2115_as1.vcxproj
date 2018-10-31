@@ -99,6 +99,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HorizontalScrollingBackground.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SpaceShip.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Vector3.cpp" />
@@ -109,6 +110,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="HorizontalScrollingBackground.h" />
     <ClInclude Include="resource1.h" />
+    <ClInclude Include="SpaceShip.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Vector3.h" />

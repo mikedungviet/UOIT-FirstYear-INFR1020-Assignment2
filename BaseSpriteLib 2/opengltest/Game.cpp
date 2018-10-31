@@ -39,6 +39,8 @@ Game::~Game(void)
 void Game::initializeGame()
 {
 	//Initalize Space Ship
+
+
 	defaultBullet = new Bullet("image\Bullet.png");
 	defaultBullet->setNumberOfAnimations(1);
 	defaultBullet->setSpriteFrameSize(4, 4);
@@ -161,15 +163,15 @@ void Game::drawTestPrimitives()
 
 /*
 */
-void Game::ProcessKeyboardInput(SpaceShip *sprite) {
+void Game::ProcessKeyboardInput() {
 	const float appliedForce = 50;
 	if (input.upKeyArrow)
-		spaceShip->force.set(appliedForce* -sin(sprite->getOrientation() / 180 * M_PI),
-			appliedForce* cos(sprite->getOrientation() / 180 * M_PI),0);
+		spaceShip->force.set(appliedForce* -sin(spaceShip->getOrientation() / 180 * M_PI),
+			appliedForce* cos(spaceShip->getOrientation() / 180 * M_PI),0);
 
 	if (input.downKeyArrow)
-		spaceShip->force.set(appliedForce * sin(sprite->getOrientation() / 180 * M_PI),
-			appliedForce*-cos(sprite->getOrientation() / 180 * M_PI), 0);
+		spaceShip->force.set(appliedForce * sin(spaceShip->getOrientation() / 180 * M_PI),
+			appliedForce*-cos(spaceShip->getOrientation() / 180 * M_PI), 0);
 
 	if (input.leftKeyArrow)
 		spaceShip->addOrientation(10.0f);

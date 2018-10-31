@@ -39,6 +39,9 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Sprite Base Class and Child Classes</Filter>
     </ClCompile>
+    <ClCompile Include="SpaceShip.cpp">
+      <Filter>Sprite Base Class and Child Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="drawPrimitives.h">
@@ -63,6 +66,9 @@
       <Filter>Sprite Base Class and Child Classes</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>Sprite Base Class and Child Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="SpaceShip.h">
       <Filter>Sprite Base Class and Child Classes</Filter>
     </ClInclude>
   </ItemGroup>
