@@ -164,19 +164,12 @@ void Game::drawTestPrimitives()
 void Game::ProcessKeyboardInput(SpaceShip *sprite) {
 	const float appliedForce = 50;
 	if (input.upKeyArrow)
-		/*spaceShip->force.set(appliedForce* -sin(sprite->getOrientation() / 180 * M_PI),
-			appliedForce* cos(sprite->getOrientation() / 180 * M_PI),0);*/
-
-		spaceShip->force.set(0, 100, 0);
-	else if (!(input.upKeyArrow))
-		spaceShip->force.set(0, 0, 0);
+		spaceShip->force.set(appliedForce* -sin(sprite->getOrientation() / 180 * M_PI),
+			appliedForce* cos(sprite->getOrientation() / 180 * M_PI),0);
 
 	if (input.downKeyArrow)
 		spaceShip->force.set(appliedForce * sin(sprite->getOrientation() / 180 * M_PI),
 			appliedForce*-cos(sprite->getOrientation() / 180 * M_PI), 0);
-	else if (!(input.downKeyArrow))
-		spaceShip->force.set(0, 0, 0);
-
 
 	if (input.leftKeyArrow)
 		spaceShip->addOrientation(10.0f);
@@ -277,9 +270,11 @@ void Game::keyboardUp(unsigned char key, int mouseX, int mouseY)
 		break;
 	case 'w':
 		input.upKeyArrow = false;
+		spaceShip->force.set(0, 0, 0);
 		break;
 	case's':
 		input.downKeyArrow = false;
+		spaceShip->force.set(0, 0, 0);
 		break;
 	case'a':
 		input.leftKeyArrow = false;
