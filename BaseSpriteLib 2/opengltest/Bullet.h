@@ -9,11 +9,11 @@ private:
 public:
 	//Constructor
 	Bullet(std::string fileName) 
-		:Sprite(fileName), lifeTime{10.0f} {}
+		:Sprite(fileName), lifeTime{2.0f} {}
 	//Copy constructor
 	Bullet(const Bullet &defaulCons) : Sprite(defaulCons), lifeTime{defaulCons.lifeTime} {}
 
-	~Bullet();
+	~Bullet() {}
 
 	//Setters and Getters
 	float GetLifeTime() {

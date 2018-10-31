@@ -19,8 +19,9 @@ Sprite::Sprite(std::string spriteSheetFilename)
 
 //Copy Constructor
 Sprite::Sprite(const Sprite &copySprite) {
-	this->loadSpriteSheet(fileName.c_str());
+	this->loadSpriteSheet(copySprite.fileName.c_str());
 	currentAnimation = copySprite.currentAnimation;
+
 	layerID = copySprite.layerID;
 	theta = copySprite.theta;
 	centerX = copySprite.centerY;
@@ -30,6 +31,16 @@ Sprite::Sprite(const Sprite &copySprite) {
 	velocity.set(copySprite.velocity);
 	acceleration.set(copySprite.acceleration);
 	force.set(copySprite.force);
+
+	this->setNumberOfAnimations(1);
+	this->setSpriteFrameSize(4, 4);
+	this->addSpriteAnimFrame(0, 0, 0);
+	this->setCenter(2, 2);
+	this->setLayerID(3);
+
+
+	std::copy(copySprite.animations.begin(), copySprite.animations.begin() +
+		copySprite.animations.size(), animations.begin());
 	mass = 1;
 }
 

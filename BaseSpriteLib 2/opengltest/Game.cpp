@@ -48,7 +48,6 @@ void Game::initializeGame()
 	defaultBullet->setLayerID(3);
 
 	this->addSpriteToDrawList(defaultBullet);
-	bulletList.reserve(10);
 
 
 	///* load the background */
@@ -164,13 +163,9 @@ void Game::drawTestPrimitives()
 */
 void Game::ProcessKeyInput() {
 	if (input.spaceKey) {
-		Bullet *newBullet = new Bullet(*defaultBullet);
-		newBullet->setPosition(100, 200);
-		newBullet->velocity.set(100, 0, 0);
-		this->addSpriteToDrawList(newBullet);
-		bulletList.push_back(newBullet);
+		
 	}
-}
+	}
 
 /* update()
   - this function is essentially the game loop
@@ -189,9 +184,17 @@ void Game::update()
 
 	ProcessKeyInput();
 	//Update every object in the game
-	int size = bulletList.size();
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < bulletList.size(); i++) {
 		bulletList.at(i)->update(deltaTime);
+		if (bulletList.at(i)->GetLifeTime() <= 0) {
+			delete bulletList.at(i);
+			bulletList.erase(bulletList.begin()+i);
+			
+			for (int j = 0; j < spriteListToDraw.size(); j++) {
+				if (bulletList.at(i) == spriteListToDraw.at(j))
+					spriteListToDraw.erase(spriteListToDraw.begin() + j);
+			}
+		}
 	}
 
 	//Check for collision
@@ -226,7 +229,14 @@ void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
 	case 'r':  // reset position, velocity, and force
 		break;
 	case 32: // the space bar
-		input.spaceKey = true;
+		//input.spaceKey = true;
+	{
+		Bullet *newBullet = new Bullet(*defaultBullet);
+		newBullet->setPosition(100, 200);
+		newBullet->velocity.set(100, 0, 0);
+		this->addSpriteToDrawList(newBullet);
+		bulletList.push_back(newBullet); 
+	}
 		break;
 	case 27: // the escape key
 	case 'q': // the 'q' key
