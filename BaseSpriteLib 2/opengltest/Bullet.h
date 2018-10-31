@@ -21,7 +21,7 @@ public:
 	}
 
 	//Member functions
-	virtual void Update(float);
+	virtual void update(float);
 protected:
 	//Protected Member functions
 	void DecreaseLifeTime(float);

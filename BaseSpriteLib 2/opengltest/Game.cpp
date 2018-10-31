@@ -188,12 +188,11 @@ void Game::update()
 		bulletList.at(i)->update(deltaTime);
 		if (bulletList.at(i)->GetLifeTime() <= 0) {
 			delete bulletList.at(i);
-			bulletList.erase(bulletList.begin()+i);
-			
 			for (int j = 0; j < spriteListToDraw.size(); j++) {
 				if (bulletList.at(i) == spriteListToDraw.at(j))
 					spriteListToDraw.erase(spriteListToDraw.begin() + j);
 			}
+			bulletList.erase(bulletList.begin() + i);
 		}
 	}
 
