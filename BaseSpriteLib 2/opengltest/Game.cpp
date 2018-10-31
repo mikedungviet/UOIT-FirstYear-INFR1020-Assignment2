@@ -39,8 +39,16 @@ Game::~Game(void)
 void Game::initializeGame()
 {
 	//Initalize Space Ship
+	spaceShip = new SpaceShip("images/SpaceShip.png");
+	spaceShip->setNumberOfAnimations(1);
+	spaceShip->setSpriteFrameSize(21, 31);
+	spaceShip->addSpriteAnimFrame(0, 0, 0);
+	spaceShip->setPosition(100, 300);
+	spaceShip->setCenter(21 / 2, 31 / 2); // center of the sprites origin for rotation
+	spaceShip->setLayerID(3);
+	this->addSpriteToDrawList(spaceShip); //Add to drawing list
 
-
+	//Initalize Default bullet
 	defaultBullet = new Bullet("image\Bullet.png");
 	defaultBullet->setNumberOfAnimations(1);
 	defaultBullet->setSpriteFrameSize(4, 4);
@@ -163,7 +171,7 @@ void Game::drawTestPrimitives()
 
 /*
 */
-void Game::ProcessKeyboardInput() {
+void Game::ProcessKeyInput() {
 	const float appliedForce = 50;
 	if (input.upKeyArrow)
 		spaceShip->force.set(appliedForce* -sin(spaceShip->getOrientation() / 180 * M_PI),
@@ -196,6 +204,9 @@ void Game::update()
 
 	ProcessKeyInput();
 	//Update every object in the game
+
+	spaceShip->update(deltaTime);
+
 	for (int i = 0; i < bulletList.size(); i++) {
 		bulletList.at(i)->update(deltaTime);
 		if (bulletList.at(i)->GetLifeTime() <= 0) {
@@ -243,8 +254,10 @@ void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
 		//input.spaceKey = true;
 	{
 		Bullet *newBullet = new Bullet(*defaultBullet);
-		newBullet->setPosition(100, 200);
-		newBullet->velocity.set(100, 0, 0);
+		newBullet->setPosition(spaceShip->position);
+		newBullet->velocity.set(spaceShip->velocity);
+		newBullet->force.set(200*-sin(spaceShip->getOrientation() / 180 * M_PI),
+								200* cos(spaceShip->getOrientation() / 180 * M_PI), 0);
 		this->addSpriteToDrawList(newBullet);
 		bulletList.push_back(newBullet); 
 	}

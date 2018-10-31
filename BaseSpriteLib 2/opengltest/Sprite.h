@@ -98,6 +98,13 @@ public:
 		position.y = y;
 		position.z = 0;
 	}
+
+	void setPosition(Vector3 newPosition) {
+		position.x = newPosition.x;
+		position.y = newPosition.y;
+		position.z = newPosition.z;
+	}
+
 	void addOrientation(float _theta) {
 		theta += _theta;
 	}
