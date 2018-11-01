@@ -38,30 +38,41 @@ Game::~Game(void)
  */
 void Game::initializeGame()
 {
-	//Initalize Space Ship
+	////Initalize Space Ship
 	spaceShip = new SpaceShip("images/SpaceShip.png");
 	spaceShip->setNumberOfAnimations(1);
 	spaceShip->setSpriteFrameSize(21, 31);
 	spaceShip->addSpriteAnimFrame(0, 0, 0);
-	spaceShip->setPosition(100, 300);
-	spaceShip->setCenter(21 / 2, 31 / 2); // center of the sprites origin for rotation
+	spaceShip->setPosition(Vector3(900, 450, 0));
+	spaceShip->setCenterForRotation(21 / 2, 31 / 2); // center of the sprites origin for rotation
+	spaceShip->setRadius();
 	spaceShip->setLayerID(3);
 	this->addSpriteToDrawList(spaceShip); //Add to drawing list
 
 	//Initalize Default bullet
-	defaultBullet = new Bullet("image\Bullet.png");
+	defaultBullet = new Bullet("image/SpaceShip.png");
 	defaultBullet->setNumberOfAnimations(1);
 	defaultBullet->setSpriteFrameSize(4, 4);
 	defaultBullet->addSpriteAnimFrame(0, 0, 0);
-	defaultBullet->setPosition(100, 200); //Need to remove when combine with space ship
-	defaultBullet->setCenter(4 / 2, 4 / 2); 
+	defaultBullet->setPosition(Vector3(100, 200, 0));
+	defaultBullet->setCenterForRotation(4 / 2, 4 / 2); // center of the sprites origin for rotation
+	defaultBullet->setRadius();
 	defaultBullet->setLayerID(3);
-
 	this->addSpriteToDrawList(defaultBullet);
 
+	defaultSmallAsteroid = new SmallAsteroid("images/SmallAsteroid.png");
+	defaultSmallAsteroid->setNumberOfAnimations(1);
+	defaultSmallAsteroid->setSpriteFrameSize(50, 50);
+	defaultSmallAsteroid->addSpriteAnimFrame(0, 0, 0);
+	defaultSmallAsteroid->setPosition(Vector3(1200, 450, 0));
+	defaultSmallAsteroid->setCenterForRotation(50 / 2, 50 / 2); // center of the sprites origin for rotation
+	defaultSmallAsteroid->setRadius(20);
+	defaultSmallAsteroid->setLayerID(3);
+
+	this->addSpriteToDrawList(defaultSmallAsteroid);
 
 	///* load the background */
-	bg = new HorizontalScrollingBackground("images/BG.png",stateInfo.windowWidth,stateInfo.windowHeight);
+	bg = new HorizontalScrollingBackground("images/Black Background.png",stateInfo.windowWidth,stateInfo.windowHeight);
 	this->addSpriteToDrawList(bg);
 	bg->setLayerID(0);
 }
@@ -115,6 +126,7 @@ void Game::DrawGame()
 {
 	/* here is where your drawing stuff goes */
 	drawSprites();
+	drawCircle(20, spaceShip->radius, spaceShip->centerPoint.x,spaceShip->centerPoint.y);
 
 	glDisable(GL_TEXTURE_2D);
 	drawTestPrimitives();  
@@ -219,6 +231,7 @@ void Game::update()
 		}
 	}
 
+
 	//Check for collision
 }
 
@@ -249,12 +262,15 @@ void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
 	switch(key)
 	{
 	case 'r':  // reset position, velocity, and force
+		spaceShip->setPosition(Vector3 (0,-105,0));
+		spaceShip->velocity.set(0, 0, 0);
+		spaceShip->acceleration.set(0, 0, 0);
 		break;
 	case 32: // the space bar
 		//input.spaceKey = true;
 	{
 		Bullet *newBullet = new Bullet(*defaultBullet);
-		newBullet->setPosition(spaceShip->position);
+		newBullet->setPosition(spaceShip->centerPoint);
 		newBullet->velocity.set(spaceShip->velocity);
 		newBullet->force.set(200*-sin(spaceShip->getOrientation() / 180 * M_PI),
 								200* cos(spaceShip->getOrientation() / 180 * M_PI), 0);

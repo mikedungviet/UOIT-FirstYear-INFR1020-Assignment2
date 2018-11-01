@@ -6,12 +6,9 @@ class SpaceShip: public Sprite
 {
 public:
 	//Space ship variables
-	const float maxAcceleration;
 	int shieldCounts, liveCounts;
-	SpaceShip(std::string spriteSheetFilename) :Sprite(spriteSheetFilename), maxAcceleration{ 50 },
-		shieldCounts{ 4 }, liveCounts{ 4 } {
-
-	}
+	SpaceShip(std::string spriteSheetFilename) :Sprite(spriteSheetFilename),
+		shieldCounts{ 4 }, liveCounts{ 4 } {}
 	~SpaceShip() {}
 
 

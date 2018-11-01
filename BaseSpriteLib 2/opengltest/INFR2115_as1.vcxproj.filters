@@ -42,6 +42,9 @@
     <ClCompile Include="SpaceShip.cpp">
       <Filter>Sprite Base Class and Child Classes</Filter>
     </ClCompile>
+    <ClCompile Include="SmallAsteroid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="drawPrimitives.h">
@@ -70,6 +73,12 @@
     </ClInclude>
     <ClInclude Include="SpaceShip.h">
       <Filter>Sprite Base Class and Child Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Asteroid.h">
+      <Filter>Sprite Base Class and Child Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallAsteroid.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

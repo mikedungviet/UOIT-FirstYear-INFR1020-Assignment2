@@ -9,7 +9,7 @@ HorizontalScrollingBackground::HorizontalScrollingBackground(std::string filenam
 	this->setNumberOfAnimations(1);
 	this->addSpriteAnimFrame(0, 0,0);
 	this->setSpriteFrameSize(width,height);
-	this->setPosition(0,0);
+	this->setPosition(Vector3(0,0,0));
 }
 
 HorizontalScrollingBackground::~HorizontalScrollingBackground(void)

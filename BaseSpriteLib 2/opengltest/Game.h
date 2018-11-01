@@ -13,6 +13,7 @@
 #include "IL/ilut.h"
 #include "Sprite.h"
 #include "Bullet.h"
+#include "SmallAsteroid.h"
 #include "SpaceShip.h"
 #include "HorizontalScrollingBackground.h"
 #include "Timer.h"
@@ -146,10 +147,13 @@ public:
 	GameStateInfo stateInfo;
 
 	// here is the sprite to draw to the screen
+	SpaceShip *spaceShip;
+
 	Bullet *defaultBullet;
 	std::vector<Bullet*> bulletList;
-	SpaceShip *spaceShip;
 	
+	SmallAsteroid *defaultSmallAsteroid;
+	std::vector<SmallAsteroid *> smallAsteroidList;
 	
 	// the background scroller
 	HorizontalScrollingBackground *bg;
