@@ -60,6 +60,21 @@ public:
 		return result;
 	}
 
+	Vector3 operator- (const Vector3 rhs) const {
+		Vector3 result;
+		result.x = x - rhs.x;
+		result.y = y - rhs.y;
+		result.z = z - rhs.z;
+		return result;
+	}
+
+	bool operator!=(const float value) {
+		if (x == value && y != value) {
+			return true;
+		}
+		return false;
+	}
+
 	//Member Functions
 	float GetLength();
 	Vector3 NormalizeVector();

@@ -2,21 +2,22 @@
 
 //Overiding update function
 void SpaceShip::update(float deltaTime) {
+	//Air Friction
+	if (velocity.x != 0||velocity.y !=0) {
+		Vector3 normalizedVelocity = velocity.NormalizeVector();
+		frictionForce = Vector3(-20 * normalizedVelocity.x, -20 * normalizedVelocity.y, 0);
+		acceleration = force + frictionForce;
+	}
+	else {
+		acceleration = force;
+	}
+	velocity = velocity + acceleration * deltaTime;
+	position = position + velocity * deltaTime;
 
-	//Variables
-	float resistaceAngle = theta+180;
-	const float resistanceForce = 10;
-	Vector3 airResistance(0,0,0);
-	// physics update goes here!!!!
-	acceleration = force; //update new acceleration
-	velocity = velocity + acceleration * deltaTime; //update new velocity
-	position = position + velocity * deltaTime; //update new position
-	Sprite::updateCenterPoint();
-
-	//Check for the bounding box
-	Sprite::update(deltaTime);
-	
+	updateOutOfScreenPosition();
+	updateCenterPoint();
 }
+
 
 /*
 	This function decrease the shield value

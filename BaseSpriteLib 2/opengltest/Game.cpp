@@ -1,8 +1,8 @@
 #include "Game.h"
 #include "drawPrimitives.h"
 
-/* this is called by std::sort to sort the list based on layerID 
- *  for drawing in the proper order 
+/* this is called by std::sort to sort the list based on layerID
+ *  for drawing in the proper order
  */
 bool spriteSortingFunction(Sprite *s1, Sprite *s2)
 {
@@ -30,7 +30,7 @@ Game::~Game(void)
 	/* deallocate memory and clean up here. if needed */
 }
 
-/* 
+/*
  * initializeGame()
  * - this function is called in the constructor to initialize everything related
  *   to the game, i..e loading sprites etc.
@@ -38,6 +38,7 @@ Game::~Game(void)
  */
 void Game::initializeGame()
 {
+	srand(time(NULL));
 	////Initalize Space Ship
 	spaceShip = new SpaceShip("images/SpaceShip.png");
 	spaceShip->setNumberOfAnimations(1);
@@ -50,36 +51,38 @@ void Game::initializeGame()
 	this->addSpriteToDrawList(spaceShip); //Add to drawing list
 
 	//Initalize Default bullet
-	defaultBullet = new Bullet("image/SpaceShip.png");
+	defaultBullet = new Bullet("images/Bullet.png");
 	defaultBullet->setNumberOfAnimations(1);
 	defaultBullet->setSpriteFrameSize(4, 4);
 	defaultBullet->addSpriteAnimFrame(0, 0, 0);
-	defaultBullet->setPosition(Vector3(100, 200, 0));
-	defaultBullet->setCenterForRotation(4 / 2, 4 / 2); // center of the sprites origin for rotation
+	defaultBullet->setPosition(Vector3(100, 100, 0));
+	defaultBullet->setCenterForRotation(21 / 2, 31 / 2); // center of the sprites origin for rotation
+	defaultBullet->updateCenterPoint();
 	defaultBullet->setRadius();
 	defaultBullet->setLayerID(3);
-	this->addSpriteToDrawList(defaultBullet);
+	//this->addSpriteToDrawList(defaultBullet);
 
 	defaultSmallAsteroid = new SmallAsteroid("images/SmallAsteroid.png");
 	defaultSmallAsteroid->setNumberOfAnimations(1);
 	defaultSmallAsteroid->setSpriteFrameSize(50, 50);
 	defaultSmallAsteroid->addSpriteAnimFrame(0, 0, 0);
-	defaultSmallAsteroid->setPosition(Vector3(1200, 450, 0));
+	defaultSmallAsteroid->setPosition(Vector3(1200, 425, 0));
 	defaultSmallAsteroid->setCenterForRotation(50 / 2, 50 / 2); // center of the sprites origin for rotation
+	defaultSmallAsteroid->updateCenterPoint();
 	defaultSmallAsteroid->setRadius(20);
 	defaultSmallAsteroid->setLayerID(3);
 
-	this->addSpriteToDrawList(defaultSmallAsteroid);
+	//this->addSpriteToDrawList(defaultSmallAsteroid);
 
 	///* load the background */
-	bg = new HorizontalScrollingBackground("images/Black Background.png",stateInfo.windowWidth,stateInfo.windowHeight);
+	bg = new HorizontalScrollingBackground("images/Black Background.png", stateInfo.windowWidth, stateInfo.windowHeight);
 	this->addSpriteToDrawList(bg);
 	bg->setLayerID(0);
 }
 
 /* draw()
  * - this gets called automatically about 30 times per second
- * - this function just draws the sprites 
+ * - this function just draws the sprites
  */
 void Game::draw()
 {
@@ -88,7 +91,7 @@ void Game::draw()
 
 	/* draw - actually render to the screen */
 	DrawGame();
-	
+
 	/* post-draw - after rendering, setup the next frame */
 	PostDraw();
 }
@@ -100,11 +103,11 @@ void Game::draw()
 void Game::PreDraw()
 {
 	/* clear the screen */
-	glViewport(0,0,stateInfo.windowWidth,stateInfo.windowHeight);
-	glClearColor(stateInfo.bgClearColor.red, 
-				 stateInfo.bgClearColor.green, 
-				 stateInfo.bgClearColor.blue, 0);
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	glViewport(0, 0, stateInfo.windowWidth, stateInfo.windowHeight);
+	glClearColor(stateInfo.bgClearColor.red,
+		stateInfo.bgClearColor.green,
+		stateInfo.bgClearColor.blue, 0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity(); // clear out the transformation matrix
 	glEnable(GL_TEXTURE_2D); // turn on texturing
 
@@ -118,7 +121,7 @@ void Game::PreDraw()
 
 }
 
-/* 
+/*
  * DrawGame()
  *  - this is the actual drawing of the current frame of the game.
  */
@@ -126,10 +129,28 @@ void Game::DrawGame()
 {
 	/* here is where your drawing stuff goes */
 	drawSprites();
-	drawCircle(20, spaceShip->radius, spaceShip->centerPoint.x,spaceShip->centerPoint.y);
+	/*drawCircle(20, spaceShip->radius, spaceShip->centerPoint.x, spaceShip->centerPoint.y);
+	setColor(255,255,255);
+	drawCircle(10, defaultSmallAsteroid->radius, defaultSmallAsteroid->centerPoint.x, defaultSmallAsteroid->
+		centerPoint.y);
+
+	drawLine(0, 0, 1200, 450);
+	drawLine(0, 0, defaultSmallAsteroid->centerPoint.x, defaultSmallAsteroid->
+		centerPoint.y);
+	for (int i = 0; i < smallAsteroidList.size(); i++) {
+		drawCircle(10, smallAsteroidList.at(i)->radius, smallAsteroidList.at(i)->centerPoint.x, smallAsteroidList.at(i)->
+			centerPoint.y);
+	}
+
+	for (int i = 0; i < bulletList.size(); i++) {
+		drawCircle(10, bulletList.at(i)->radius, bulletList.at(i)->centerPoint.x, bulletList.at(i)->
+			centerPoint.y);
+		drawLine(bulletList.at(i)->centerPoint.x, bulletList.at(i)->centerPoint.y,
+			defaultSmallAsteroid->centerPoint.x, defaultSmallAsteroid->centerPoint.y);
+	}*/
 
 	glDisable(GL_TEXTURE_2D);
-	drawTestPrimitives();  
+	drawTestPrimitives();
 
 	/* this makes it actually show up on the screen */
 	glutSwapBuffers();
@@ -139,8 +160,8 @@ void Game::DrawGame()
  * PostDraw()
  *  - in here you should clean up and set up things for the next frame
  *  - i.e. once I've used my assets, I can change them to set up things for
- *    the next frame, usually just memory management or setting up game state 
- *    boolean values etc.  
+ *    the next frame, usually just memory management or setting up game state
+ *    boolean values etc.
  */
 void Game::PostDraw()
 {
@@ -158,8 +179,8 @@ void Game::PostDraw()
 void Game::drawSprites()
 {
 	// this just goes through the list of sprites and tells them to draw
-	std::vector<Sprite*>::iterator it; 
-	for(it=spriteListToDraw.begin(); it != spriteListToDraw.end();it++)
+	std::vector<Sprite*>::iterator it;
+	for (it = spriteListToDraw.begin(); it != spriteListToDraw.end(); it++)
 	{
 		Sprite *s = (*it);
 		s->draw();
@@ -184,39 +205,46 @@ void Game::drawTestPrimitives()
 /*
 */
 void Game::ProcessKeyInput() {
-	const float appliedForce = 50;
-	if (input.upKeyArrow)
+	const float appliedForce = 100;
+	if (input.upKeyArrow) {
 		spaceShip->force.set(appliedForce* -sin(spaceShip->getOrientation() / 180 * M_PI),
-			appliedForce* cos(spaceShip->getOrientation() / 180 * M_PI),0);
+			appliedForce* cos(spaceShip->getOrientation() / 180 * M_PI), 0);
+	}
 
-	if (input.downKeyArrow)
+	if (input.downKeyArrow) {
 		spaceShip->force.set(appliedForce * sin(spaceShip->getOrientation() / 180 * M_PI),
 			appliedForce*-cos(spaceShip->getOrientation() / 180 * M_PI), 0);
-
-	if (input.leftKeyArrow)
+	}
+	if (input.leftKeyArrow) {
 		spaceShip->addOrientation(10.0f);
-	if (input.rightKeyArrow)
+	}
+	if (input.rightKeyArrow) {
 		spaceShip->addOrientation(-10.0f);
+	}
 
 }
 /* update()
   - this function is essentially the game loop
-    it gets called often and as such you
+	it gets called often and as such you
 	don't actually need a "loop" to define the game
 	it happens behind the scenes
   - think of this function as one iteration of the game loop
   - if you need to update physics calculations, sprite animation info,
-    or sound etc, it goes in here
+	or sound etc, it goes in here
 */
 void Game::update()
 {
 	// update our clock so we have the delta time since the last update
 	updateTimer->tick();
 	float deltaTime = updateTimer->getElapsedTimeSeconds();
+	
+	if (smallAsteroidList.size() < 8) {
+		SpawnSmallAsteroid();
+	}
+
 
 	ProcessKeyInput();
 	//Update every object in the game
-
 	spaceShip->update(deltaTime);
 
 	for (int i = 0; i < bulletList.size(); i++) {
@@ -230,24 +258,61 @@ void Game::update()
 			bulletList.erase(bulletList.begin() + i);
 		}
 	}
-
+	for (int i = 0; i < smallAsteroidList.size(); i++) {
+		smallAsteroidList.at(i)->update(deltaTime);
+	}
 
 	//Check for collision
+	for (int i = 0; i < bulletList.size(); i++) {
+		for (int j = 0; j< smallAsteroidList.size(); j++){
+			if (smallAsteroidList.at(j)->checkIfCollide(bulletList.at(i))) {
+				delete bulletList.at(i);
+				spriteListToDraw.erase(std::find(spriteListToDraw.begin(), spriteListToDraw.end(), bulletList.at(i)));
+				spriteListToDraw.erase(std::find(spriteListToDraw.begin(), spriteListToDraw.end(), smallAsteroidList.at(j)));
+				smallAsteroidList.erase(smallAsteroidList.begin() + j);
+				bulletList.erase(bulletList.begin() + i);
+				break;
+			}
+		}
+	}
 }
 
-/* 
+/*
  * addSpriteToDrawList()
  * - this function simply pushes the sprite to the end of the list
  */
 void Game::addSpriteToDrawList(Sprite *s)
 {
-	if(s)
+	if (s)
 	{
 		/* push the sprite to the back of the list */
 		this->spriteListToDraw.push_back(s);
 	}
 }
 
+/*
+	This function spawn small asteroids at random location and set random
+	velocity
+*/
+void Game::SpawnSmallAsteroid() {
+	SmallAsteroid *tempAsteroid = new SmallAsteroid(*defaultSmallAsteroid);
+	tempAsteroid->position.set(Vector3(rand() % 1700, rand() % 800, 0));
+	tempAsteroid->velocity.set(Vector3(rand() % 200 + 50, rand() % 200 + 50, 0));
+	this->addSpriteToDrawList(tempAsteroid);
+	smallAsteroidList.push_back(tempAsteroid);
+}
+
+/*
+	This function spawn small asteroids when large asteroid is destroyed
+	@param _position The Vector where the small asteroid whill spawn
+*/
+void Game::SpawnSmallAsteroid(Vector3 _position) {
+	SmallAsteroid *tempAsteroid = new SmallAsteroid(*defaultSmallAsteroid);
+	tempAsteroid->position.set(_position);
+	tempAsteroid->velocity.set(Vector3(rand() % 200 + 50, rand() % 200 + 50, 0));
+	this->addSpriteToDrawList(tempAsteroid);
+	smallAsteroidList.push_back(tempAsteroid);
+}
 
 /*************************************************/
 /* INPUT - keyboard/mouse functions below        */
@@ -255,28 +320,17 @@ void Game::addSpriteToDrawList(Sprite *s)
 /* keyboardDown()
    - this gets called when you press a key down
    - you are given the key that was pressed
-     and where the (x,y) location of the mouse is when pressed
+	 and where the (x,y) location of the mouse is when pressed
 */
 void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
 {
-	switch(key)
+	switch (key)
 	{
 	case 'r':  // reset position, velocity, and force
-		spaceShip->setPosition(Vector3 (0,-105,0));
-		spaceShip->velocity.set(0, 0, 0);
-		spaceShip->acceleration.set(0, 0, 0);
 		break;
 	case 32: // the space bar
 		//input.spaceKey = true;
-	{
-		Bullet *newBullet = new Bullet(*defaultBullet);
-		newBullet->setPosition(spaceShip->centerPoint);
-		newBullet->velocity.set(spaceShip->velocity);
-		newBullet->force.set(200*-sin(spaceShip->getOrientation() / 180 * M_PI),
-								200* cos(spaceShip->getOrientation() / 180 * M_PI), 0);
-		this->addSpriteToDrawList(newBullet);
-		bulletList.push_back(newBullet); 
-	}
+
 		break;
 	case 27: // the escape key
 	case 'q': // the 'q' key
@@ -299,14 +353,23 @@ void Game::keyboardDown(unsigned char key, int mouseX, int mouseY)
 /* keyboardUp()
    - this gets called when you lift a key up
    - you are given the key that was pressed
-     and where the (x,y) location of the mouse is when pressed
+	 and where the (x,y) location of the mouse is when pressed
 */
 void Game::keyboardUp(unsigned char key, int mouseX, int mouseY)
 {
-	switch(key)
+	switch (key)
 	{
 	case 32: // the space bar
 		input.spaceKey = false;
+		{
+			Bullet *newBullet = new Bullet(*defaultBullet);
+			newBullet->setPosition(spaceShip->centerPoint);
+			newBullet->velocity.set(spaceShip->velocity);
+			newBullet->force.set(200 * -sin(spaceShip->getOrientation() / 180 * M_PI),
+				200 * cos(spaceShip->getOrientation() / 180 * M_PI), 0);
+			this->addSpriteToDrawList(newBullet);
+			bulletList.push_back(newBullet);
+		}
 		break;
 	case 27: // the escape key
 	case 'q': // the 'q' key

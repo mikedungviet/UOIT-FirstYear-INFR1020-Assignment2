@@ -29,7 +29,17 @@ void Sprite::addForce(Vector3 f)
 */
 void Sprite::update(float deltaTime)
 {
-	if (position.y <= -25){
+	acceleration = force;
+	velocity = velocity + acceleration * deltaTime;
+	position = position + velocity * deltaTime;
+
+	updateOutOfScreenPosition();
+	updateCenterPoint();
+
+}
+
+void Sprite::updateOutOfScreenPosition() {
+	if (position.y <= -25) {
 		position.y = 899;
 	}
 	if (position.y >= 900) {
@@ -61,7 +71,6 @@ bool Sprite::checkIfCollide(Sprite *otherSpriteToCompare) {
 		return true;
 	else
 		return false;
-
 }
 
 Sprite::~Sprite(void)

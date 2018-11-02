@@ -95,9 +95,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Asteroid.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="HorizontalScrollingBackground.cpp" />
+    <ClCompile Include="LargeAsteroid.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="SmallAsteroid.cpp" />
     <ClCompile Include="SpaceShip.cpp" />
@@ -111,6 +113,7 @@
     <ClInclude Include="drawPrimitives.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="HorizontalScrollingBackground.h" />
+    <ClInclude Include="LargeAsteroid.h" />
     <ClInclude Include="resource1.h" />
     <ClInclude Include="SmallAsteroid.h" />
     <ClInclude Include="SpaceShip.h" />

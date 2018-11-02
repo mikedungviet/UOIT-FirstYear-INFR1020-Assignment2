@@ -15,6 +15,8 @@
 #include <cmath>
 #include <string>
 
+#define M_PI 3.14159265358979323846
+
 class XY_Coordinate
 {
 public:
@@ -84,8 +86,10 @@ public:
 	void addSpriteAnimFrame(int animationNumber, int x, int y);
 	void addSpriteAnimRow(int animationNumber, float startX, float startY, float spacingX, float spacingY, int numFrames);
 	void updateCenterPoint();
-	bool checkIfCollide(Sprite *);
+	void updateOutOfScreenPosition();
+	virtual bool checkIfCollide(Sprite *);
 	
+	//Setters
 	virtual void setRadius() {
 		radius = sqrt(pow(sz.width/2.0f, 2) + pow(sz.height/2.0f,2));
 	}
@@ -105,6 +109,11 @@ public:
 		position.z = newPosition.z;
 	}
 
+	void setCurrentAnimation(int anim) {
+		currentAnimation = anim;
+		if (currentAnimation >= animations.size()) currentAnimation = 0;
+	}
+
 	void addOrientation(float _theta) {
 		theta += _theta;
 	}
@@ -114,10 +123,7 @@ public:
 	virtual void draw();
 
 
-	void setCurrentAnimation(int anim) {
-		currentAnimation = anim;
-		if(currentAnimation >= animations.size()) currentAnimation = 0;
-	}
+
 	/* update */
 	void addForce(Vector3 v);
 	virtual void update(float);
@@ -136,7 +142,7 @@ public:
 	/* position/center/orientation */
 	/* these should be VECTORS! */
 	Vector3 centerPoint;
-	Vector3 position;  // use this!  Its a vector!!
+	Vector3 position; 
 	float centerX,centerY;
 	float theta;
 	float radius;

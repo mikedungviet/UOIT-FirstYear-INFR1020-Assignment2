@@ -1,6 +1,7 @@
 #pragma once
 #include "Sprite.h"
 #include <string>
+#include <iostream>
 
 class Bullet:public Sprite
 {
@@ -9,7 +10,7 @@ private:
 public:
 	//Constructor
 	Bullet(std::string fileName) 
-		:Sprite(fileName), lifeTime{2.0f} {}
+		:Sprite(fileName), lifeTime{2.5f} {}
 
 	~Bullet() {}
 
@@ -20,6 +21,7 @@ public:
 
 	//Member functions
 	virtual void update(float);
+	//virtual bool checkIfCollide(Sprite *);
 protected:
 	//Protected Member functions
 	void DecreaseLifeTime(float);

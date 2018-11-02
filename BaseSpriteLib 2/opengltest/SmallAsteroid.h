@@ -11,5 +11,6 @@ public:
 
 	//Member Functions
 	virtual void update(float);
+	
 };
 

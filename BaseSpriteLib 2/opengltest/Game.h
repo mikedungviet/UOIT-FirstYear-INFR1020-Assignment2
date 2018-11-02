@@ -17,6 +17,8 @@
 #include "SpaceShip.h"
 #include "HorizontalScrollingBackground.h"
 #include "Timer.h"
+#include <time.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
 
@@ -135,10 +137,12 @@ public:
 	/* update routines, the game loop */
 	void ProcessKeyInput();
 	void update(); // called from main frequently
+	void SpawnSmallAsteroid();
+	void SpawnSmallAsteroid(Vector3);
 
 	/* input callback functions */
-	void keyboardDown(unsigned char key, int mouseX, int mouseY);
-	void keyboardUp(unsigned char key, int mouseX, int mouseY);
+	void keyboardDown(unsigned char key, int , int);
+	void keyboardUp(unsigned char key,int, int);
 	/*********************************/
 	/* DATA */
 	/*********************************/
@@ -168,6 +172,7 @@ public:
 	   or      spritesToUpdateForCollisions 
 	   etc....
     */
+	
 
 	/* timer's for rendering and animation/physics update */
 	Timer *renderingTimer;

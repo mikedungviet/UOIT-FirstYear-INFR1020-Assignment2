@@ -7,6 +7,8 @@ class SpaceShip: public Sprite
 public:
 	//Space ship variables
 	int shieldCounts, liveCounts;
+	Vector3 frictionForce;
+
 	SpaceShip(std::string spriteSheetFilename) :Sprite(spriteSheetFilename),
 		shieldCounts{ 4 }, liveCounts{ 4 } {}
 	~SpaceShip() {}
