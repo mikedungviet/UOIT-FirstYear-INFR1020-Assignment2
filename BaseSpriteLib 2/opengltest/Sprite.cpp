@@ -29,7 +29,16 @@ void Sprite::addForce(Vector3 f)
 */
 void Sprite::update(float deltaTime)
 {
-	acceleration = force;
+	// apply friction if the object is moving
+	if (velocity.x != 0 || velocity.y != 0) {
+		Vector3 normalizedVelocity = velocity.NormalizeVector();
+		frictionForce = Vector3(-75 * normalizedVelocity.x, -75 * normalizedVelocity.y, 0);
+		acceleration = force + frictionForce;
+	}
+	//Friction is not applied when the object is not moving
+	else {
+		acceleration = force;
+	}
 	velocity = velocity + acceleration * deltaTime;
 	position = position + velocity * deltaTime;
 

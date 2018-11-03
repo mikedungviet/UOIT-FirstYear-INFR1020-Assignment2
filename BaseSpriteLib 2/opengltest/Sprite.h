@@ -156,6 +156,7 @@ public:
 	Vector3 velocity;
 	Vector3 acceleration;
 	Vector3 force;
+	Vector3 frictionForce;
 	float mass;
 
 

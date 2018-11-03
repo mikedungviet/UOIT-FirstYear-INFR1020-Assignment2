@@ -15,7 +15,6 @@ public:
 
 
 	//Member functions
-	virtual void update(float);
 	void decreaseShield(int);
 	void decreaseLive();
 };

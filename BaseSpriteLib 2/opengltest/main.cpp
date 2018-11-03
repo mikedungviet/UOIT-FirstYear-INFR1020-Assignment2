@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 	glutInit(&argc,argv);
 	glutInitWindowSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 	glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE);
-	glutCreateWindow("MY GAME");
+	glutCreateWindow("Mike Pham-10706123- Assignment 2");
 
 	/* set up our function callbacks */
 	glutDisplayFunc(DisplayCallbackFunction);
