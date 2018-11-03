@@ -94,6 +94,10 @@ public:
 		radius = sqrt(pow(sz.width/2.0f, 2) + pow(sz.height/2.0f,2));
 	}
 
+	void setRadius(float value) {
+		radius = value;
+	}
+
 	void setLayerID(float value) {
 		layerID = value;
 	}

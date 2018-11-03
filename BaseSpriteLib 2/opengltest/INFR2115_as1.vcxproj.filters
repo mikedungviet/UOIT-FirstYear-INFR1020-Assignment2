@@ -42,12 +42,6 @@
     <ClCompile Include="SpaceShip.cpp">
       <Filter>Sprite Base Class and Child Classes</Filter>
     </ClCompile>
-    <ClCompile Include="SmallAsteroid.cpp">
-      <Filter>Sprite Base Class and Child Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="LargeAsteroid.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Asteroid.cpp">
       <Filter>Sprite Base Class and Child Classes</Filter>
     </ClCompile>
@@ -82,12 +76,6 @@
     </ClInclude>
     <ClInclude Include="Asteroid.h">
       <Filter>Sprite Base Class and Child Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="SmallAsteroid.h">
-      <Filter>Sprite Base Class and Child Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="LargeAsteroid.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

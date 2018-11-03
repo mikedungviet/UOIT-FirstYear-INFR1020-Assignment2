@@ -56,23 +56,34 @@ void Game::initializeGame()
 	defaultBullet->setSpriteFrameSize(4, 4);
 	defaultBullet->addSpriteAnimFrame(0, 0, 0);
 	defaultBullet->setPosition(Vector3(100, 100, 0));
-	defaultBullet->setCenterForRotation(21 / 2, 31 / 2); // center of the sprites origin for rotation
+	defaultBullet->setCenterForRotation(4 / 2, 4 / 2); // center of the sprites origin for rotation
 	defaultBullet->updateCenterPoint();
 	defaultBullet->setRadius();
 	defaultBullet->setLayerID(3);
 	//this->addSpriteToDrawList(defaultBullet);
 
-	defaultSmallAsteroid = new SmallAsteroid("images/SmallAsteroid.png");
+	defaultSmallAsteroid = new Asteroid("images/SmallAsteroid.png");
 	defaultSmallAsteroid->setNumberOfAnimations(1);
 	defaultSmallAsteroid->setSpriteFrameSize(50, 50);
 	defaultSmallAsteroid->addSpriteAnimFrame(0, 0, 0);
 	defaultSmallAsteroid->setPosition(Vector3(1200, 425, 0));
 	defaultSmallAsteroid->setCenterForRotation(50 / 2, 50 / 2); // center of the sprites origin for rotation
 	defaultSmallAsteroid->updateCenterPoint();
-	defaultSmallAsteroid->setRadius(20);
+	defaultSmallAsteroid->setRadius(22);
 	defaultSmallAsteroid->setLayerID(3);
 
 	//this->addSpriteToDrawList(defaultSmallAsteroid);
+
+	defaultLargeAsteroid = new Asteroid("images/BigAsteroid.png");
+	defaultLargeAsteroid->setNumberOfAnimations(1);
+	defaultLargeAsteroid->setSpriteFrameSize(101, 101);
+	defaultLargeAsteroid->addSpriteAnimFrame(0, 0, 0);
+	defaultLargeAsteroid->setPosition(Vector3(1000, 450, 0));
+	defaultLargeAsteroid->setCenterForRotation(101 / 2, 101 / 2); // center of the sprites origin for rotation
+	defaultLargeAsteroid->setRadius(47);
+	defaultLargeAsteroid->setLayerID(3);
+	//this->addSpriteToDrawList(defaultLargeAsteroid); //Add to drawing list
+
 
 	///* load the background */
 	bg = new HorizontalScrollingBackground("images/Black Background.png", stateInfo.windowWidth, stateInfo.windowHeight);
@@ -128,30 +139,26 @@ void Game::PreDraw()
 void Game::DrawGame()
 {
 	/* here is where your drawing stuff goes */
+
 	drawSprites();
-	/*drawCircle(20, spaceShip->radius, spaceShip->centerPoint.x, spaceShip->centerPoint.y);
-	setColor(255,255,255);
-	drawCircle(10, defaultSmallAsteroid->radius, defaultSmallAsteroid->centerPoint.x, defaultSmallAsteroid->
-		centerPoint.y);
 
-	drawLine(0, 0, 1200, 450);
-	drawLine(0, 0, defaultSmallAsteroid->centerPoint.x, defaultSmallAsteroid->
-		centerPoint.y);
-	for (int i = 0; i < smallAsteroidList.size(); i++) {
-		drawCircle(10, smallAsteroidList.at(i)->radius, smallAsteroidList.at(i)->centerPoint.x, smallAsteroidList.at(i)->
-			centerPoint.y);
-	}
-
-	for (int i = 0; i < bulletList.size(); i++) {
-		drawCircle(10, bulletList.at(i)->radius, bulletList.at(i)->centerPoint.x, bulletList.at(i)->
-			centerPoint.y);
-		drawLine(bulletList.at(i)->centerPoint.x, bulletList.at(i)->centerPoint.y,
-			defaultSmallAsteroid->centerPoint.x, defaultSmallAsteroid->centerPoint.y);
-	}*/
 
 	glDisable(GL_TEXTURE_2D);
 	drawTestPrimitives();
+	setColor(255, 255, 255);
+	drawText("Score: ", 100, 0);
 
+	setColor(250, 0, 0);
+	for (int i = 0; i < smallAsteroidList.size(); i++) {
+		drawCircle(10, smallAsteroidList.at(i)->radius, smallAsteroidList.at(i)->centerPoint.x,
+			smallAsteroidList.at(i)->centerPoint.y);
+	}
+	drawCircle(10, spaceShip->radius, spaceShip->centerPoint.x, spaceShip->centerPoint.y);
+
+	for (int i = 0; i < largeAsteroidList.size(); i++) {
+		drawCircle(10, largeAsteroidList.at(i)->radius, largeAsteroidList.at(i)->centerPoint.x,
+			largeAsteroidList.at(i)->centerPoint.y);
+	}
 	/* this makes it actually show up on the screen */
 	glutSwapBuffers();
 }
@@ -205,7 +212,7 @@ void Game::drawTestPrimitives()
 /*
 */
 void Game::ProcessKeyInput() {
-	const float appliedForce = 100;
+	const float appliedForce = 200;
 	if (input.upKeyArrow) {
 		spaceShip->force.set(appliedForce* -sin(spaceShip->getOrientation() / 180 * M_PI),
 			appliedForce* cos(spaceShip->getOrientation() / 180 * M_PI), 0);
@@ -237,9 +244,12 @@ void Game::update()
 	// update our clock so we have the delta time since the last update
 	updateTimer->tick();
 	float deltaTime = updateTimer->getElapsedTimeSeconds();
-	
-	if (smallAsteroidList.size() < 8) {
+
+	if (smallAsteroidList.size() < 5) {
 		SpawnSmallAsteroid();
+	}
+	if (largeAsteroidList.size() < 2) {
+		SpawnLargeAsteroid();
 	}
 
 
@@ -262,19 +272,69 @@ void Game::update()
 		smallAsteroidList.at(i)->update(deltaTime);
 	}
 
+	for (int i = 0; i < largeAsteroidList.size(); i++) {
+		largeAsteroidList.at(i)->update(deltaTime);
+	}
+
+
+
 	//Check for collision
-	for (int i = 0; i < bulletList.size(); i++) {
-		for (int j = 0; j< smallAsteroidList.size(); j++){
+	for (int j = 0; j < smallAsteroidList.size(); j++) {
+		for (int i = 0; i < bulletList.size(); i++) {
 			if (smallAsteroidList.at(j)->checkIfCollide(bulletList.at(i))) {
-				delete bulletList.at(i);
-				spriteListToDraw.erase(std::find(spriteListToDraw.begin(), spriteListToDraw.end(), bulletList.at(i)));
-				spriteListToDraw.erase(std::find(spriteListToDraw.begin(), spriteListToDraw.end(), smallAsteroidList.at(j)));
+				DeleteSprite(smallAsteroidList.at(j));
+				DeleteSprite(bulletList.at(i));
 				smallAsteroidList.erase(smallAsteroidList.begin() + j);
 				bulletList.erase(bulletList.begin() + i);
+				j--; i--;
+				score += 10;
 				break;
 			}
 		}
+		try {
+			if (smallAsteroidList.at(j)->checkIfCollide(spaceShip)) {
+				DeleteSprite(smallAsteroidList.at(j));
+				smallAsteroidList.erase(smallAsteroidList.begin() + j);
+				//spaceShip->decreaseShield(1);
+				score += 10;
+				j--;
+			}
+		}
+		catch (...) {
+			break;
+		}
 	}
+
+	for (int i = 0; i < largeAsteroidList.size(); i++) {
+		for (int j = 0; j < bulletList.size(); j++) {
+			if (largeAsteroidList.at(i)->checkIfCollide(bulletList.at(j))) {
+				for (int k = 0; k <= rand() % 4 + 2; k++)
+					SpawnSmallAsteroid(largeAsteroidList.at(i)->position);
+				DeleteSprite(largeAsteroidList.at(i));
+				DeleteSprite(bulletList.at(j));
+				largeAsteroidList.erase(largeAsteroidList.begin() + i);
+				bulletList.erase(bulletList.begin() + j);
+				i--; j--;
+				break;
+			}
+		}
+		try {
+			if (largeAsteroidList.at(i)->checkIfCollide(spaceShip)) {
+				for (int k = 0; k <= rand() % 4 + 2; k++)
+					SpawnSmallAsteroid(largeAsteroidList.at(i)->position);
+				DeleteSprite(largeAsteroidList.at(i));
+				largeAsteroidList.erase(largeAsteroidList.begin() + i);
+				//spaceShip->decreaseShield(2);
+				i--;
+			}
+		}
+		catch (...) {
+			break;
+		}
+	}
+
+	//
+
 }
 
 /*
@@ -290,14 +350,19 @@ void Game::addSpriteToDrawList(Sprite *s)
 	}
 }
 
+void Game::DeleteSprite(Sprite *spriteToDelete) {
+	delete spriteToDelete;
+	spriteListToDraw.erase(std::find(spriteListToDraw.begin(), spriteListToDraw.end(), spriteToDelete));
+}
+
 /*
 	This function spawn small asteroids at random location and set random
 	velocity
 */
 void Game::SpawnSmallAsteroid() {
-	SmallAsteroid *tempAsteroid = new SmallAsteroid(*defaultSmallAsteroid);
-	tempAsteroid->position.set(Vector3(rand() % 1700, rand() % 800, 0));
-	tempAsteroid->velocity.set(Vector3(rand() % 200 + 50, rand() % 200 + 50, 0));
+	Asteroid *tempAsteroid = new Asteroid(*defaultSmallAsteroid);
+	tempAsteroid->position.set(Vector3(rand() % 2000+1900, rand() % 900+800, 0));
+	tempAsteroid->velocity.set(Vector3(rand() % 601 + (-300), rand() % 601 + (-300), 0));
 	this->addSpriteToDrawList(tempAsteroid);
 	smallAsteroidList.push_back(tempAsteroid);
 }
@@ -307,11 +372,30 @@ void Game::SpawnSmallAsteroid() {
 	@param _position The Vector where the small asteroid whill spawn
 */
 void Game::SpawnSmallAsteroid(Vector3 _position) {
-	SmallAsteroid *tempAsteroid = new SmallAsteroid(*defaultSmallAsteroid);
+	Asteroid *tempAsteroid = new Asteroid(*defaultSmallAsteroid);
 	tempAsteroid->position.set(_position);
-	tempAsteroid->velocity.set(Vector3(rand() % 200 + 50, rand() % 200 + 50, 0));
+	tempAsteroid->velocity.set(Vector3(rand() % 601 + (-300), rand() % 601 + (-300), 0));
 	this->addSpriteToDrawList(tempAsteroid);
 	smallAsteroidList.push_back(tempAsteroid);
+}
+
+
+void Game::SpawnLargeAsteroid() {
+	Asteroid *tempAsteroid = new Asteroid(*defaultLargeAsteroid);
+	tempAsteroid->position.set(Vector3(rand() % 2000 + 1900, rand() % 900 + 800, 0));
+	tempAsteroid->velocity.set(Vector3(rand() % 301 + (-150), rand() % 301 + (-150), 0));
+	this->addSpriteToDrawList(tempAsteroid);
+	largeAsteroidList.push_back(tempAsteroid);
+}
+
+void Game::SpawnBullet() {
+	Bullet *newBullet = new Bullet(*defaultBullet);
+	newBullet->setPosition(spaceShip->centerPoint);
+	newBullet->velocity.set(spaceShip->velocity);
+	newBullet->force.set(500 * -sin(spaceShip->getOrientation() / 180 * M_PI),
+		500 * cos(spaceShip->getOrientation() / 180 * M_PI), 0);
+	this->addSpriteToDrawList(newBullet);
+	bulletList.push_back(newBullet);
 }
 
 /*************************************************/
@@ -360,16 +444,7 @@ void Game::keyboardUp(unsigned char key, int mouseX, int mouseY)
 	switch (key)
 	{
 	case 32: // the space bar
-		input.spaceKey = false;
-		{
-			Bullet *newBullet = new Bullet(*defaultBullet);
-			newBullet->setPosition(spaceShip->centerPoint);
-			newBullet->velocity.set(spaceShip->velocity);
-			newBullet->force.set(200 * -sin(spaceShip->getOrientation() / 180 * M_PI),
-				200 * cos(spaceShip->getOrientation() / 180 * M_PI), 0);
-			this->addSpriteToDrawList(newBullet);
-			bulletList.push_back(newBullet);
-		}
+		SpawnBullet();
 		break;
 	case 27: // the escape key
 	case 'q': // the 'q' key

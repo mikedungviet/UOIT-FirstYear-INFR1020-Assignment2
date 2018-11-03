@@ -13,8 +13,8 @@
 #include "IL/ilut.h"
 #include "Sprite.h"
 #include "Bullet.h"
-#include "SmallAsteroid.h"
 #include "SpaceShip.h"
+#include "Asteroid.h"
 #include "HorizontalScrollingBackground.h"
 #include "Timer.h"
 #include <time.h>
@@ -139,6 +139,10 @@ public:
 	void update(); // called from main frequently
 	void SpawnSmallAsteroid();
 	void SpawnSmallAsteroid(Vector3);
+	void SpawnBullet();
+	void SpawnLargeAsteroid();
+	void DestroyLargeAsteroid();
+	void DeleteSprite(Sprite*);
 
 	/* input callback functions */
 	void keyboardDown(unsigned char key, int , int);
@@ -149,6 +153,7 @@ public:
 	
 	/* game state info */
 	GameStateInfo stateInfo;
+	int score;
 
 	// here is the sprite to draw to the screen
 	SpaceShip *spaceShip;
@@ -156,8 +161,11 @@ public:
 	Bullet *defaultBullet;
 	std::vector<Bullet*> bulletList;
 	
-	SmallAsteroid *defaultSmallAsteroid;
-	std::vector<SmallAsteroid *> smallAsteroidList;
+	Asteroid *defaultSmallAsteroid;
+	std::vector<Asteroid *> smallAsteroidList;
+
+	Asteroid *defaultLargeAsteroid;
+	std::vector<Asteroid*> largeAsteroidList;
 	
 	// the background scroller
 	HorizontalScrollingBackground *bg;

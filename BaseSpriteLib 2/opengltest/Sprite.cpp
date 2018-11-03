@@ -62,15 +62,14 @@ void Sprite::updateCenterPoint() {
 
 bool Sprite::checkIfCollide(Sprite *otherSpriteToCompare) {
 	//Calculate variable
-	float sumOfRadii = radius + otherSpriteToCompare->radius;
-	float distance = sqrt(pow(position.x - otherSpriteToCompare->position.x,2)
-					+ pow(position.y-otherSpriteToCompare->position.y,2));
+	float sumOfRadii = pow(radius + otherSpriteToCompare->radius,2);
+	float distance = pow(centerPoint.x - otherSpriteToCompare->centerPoint.x,2)
+					+ pow(centerPoint.y-otherSpriteToCompare->centerPoint.y,2);
 
 	//Return
 	if (distance < sumOfRadii)
 		return true;
-	else
-		return false;
+	return false;
 }
 
 Sprite::~Sprite(void)

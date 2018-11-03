@@ -2,10 +2,10 @@
 
 //Overiding update function
 void SpaceShip::update(float deltaTime) {
-	//Air Friction
+	//Air Friction	
 	if (velocity.x != 0||velocity.y !=0) {
 		Vector3 normalizedVelocity = velocity.NormalizeVector();
-		frictionForce = Vector3(-20 * normalizedVelocity.x, -20 * normalizedVelocity.y, 0);
+		frictionForce = Vector3(-75 * normalizedVelocity.x, -75 * normalizedVelocity.y, 0);
 		acceleration = force + frictionForce;
 	}
 	else {
@@ -25,11 +25,12 @@ void SpaceShip::update(float deltaTime) {
 */
 void SpaceShip::decreaseShield(int value) {
 	shieldCounts -= value;
+	if (shieldCounts == 0) {
+		decreaseLive();
+		shieldCounts = 4;
+	}
 }
 
 void SpaceShip::decreaseLive() {
-	if (shieldCounts == 0) {
-		liveCounts--;
-		shieldCounts = 4;
-	}
+	liveCounts--;
 }

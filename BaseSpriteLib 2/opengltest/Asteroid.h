@@ -11,7 +11,7 @@ public:
 	//Member function
 	Asteroid(std::string fileName): Sprite(fileName){}
 
-	virtual void update(float) = 0;
+	virtual void update(float);
 	virtual void setRadius(float value) {
 		radius = value;
 	}
