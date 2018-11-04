@@ -38,6 +38,7 @@ Game::~Game(void)
  */
 void Game::initializeGame()
 {
+	score = 0;
 	srand(time(NULL));
 	////Initalize Space Ship
 	spaceShip = new SpaceShip("images/SpaceShip.png");
@@ -146,19 +147,10 @@ void Game::DrawGame()
 	glDisable(GL_TEXTURE_2D);
 	drawTestPrimitives();
 	setColor(255, 255, 255);
-	drawText("Score: ", 100, 0);
+	drawText("Score: " + std::to_string(score), 100, 875);
+	drawText("Lives: " + std::to_string(spaceShip->liveCounts), 1700, 875);
+	drawText("Shield: " + std::to_string(spaceShip->shieldCounts), 1700, 850);
 
-	setColor(250, 0, 0);
-	for (int i = 0; i < smallAsteroidList.size(); i++) {
-		drawCircle(10, smallAsteroidList.at(i)->radius, smallAsteroidList.at(i)->centerPoint.x,
-			smallAsteroidList.at(i)->centerPoint.y);
-	}
-	drawCircle(10, spaceShip->radius, spaceShip->centerPoint.x, spaceShip->centerPoint.y);
-
-	for (int i = 0; i < largeAsteroidList.size(); i++) {
-		drawCircle(10, largeAsteroidList.at(i)->radius, largeAsteroidList.at(i)->centerPoint.x,
-			largeAsteroidList.at(i)->centerPoint.y);
-	}
 	/* this makes it actually show up on the screen */
 	glutSwapBuffers();
 }

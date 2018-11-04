@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include <algorithm>
 #include <cmath>
+#include <string>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -141,7 +142,6 @@ public:
 	void SpawnSmallAsteroid(Vector3);
 	void SpawnBullet();
 	void SpawnLargeAsteroid();
-	void DestroyLargeAsteroid();
 	void DeleteSprite(Sprite*);
 
 	/* input callback functions */
