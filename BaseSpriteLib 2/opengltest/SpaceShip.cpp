@@ -6,7 +6,7 @@
 */
 void SpaceShip::decreaseShield(int value) {
 	shieldCounts -= value;
-	if (shieldCounts == 0) {
+	if (shieldCounts <= 0) {
 		decreaseLive();
 		shieldCounts = 4;
 	}

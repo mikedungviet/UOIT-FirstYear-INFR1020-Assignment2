@@ -39,6 +39,8 @@ Game::~Game(void)
 void Game::initializeGame()
 {
 	score = 0;
+	isShipCollide = false;
+
 	srand(time(NULL));
 	////Initalize Space Ship
 	spaceShip = new SpaceShip("images/SpaceShip.png");
@@ -151,6 +153,15 @@ void Game::DrawGame()
 	drawText("Lives: " + std::to_string(spaceShip->liveCounts), 1700, 875);
 	drawText("Shield: " + std::to_string(spaceShip->shieldCounts), 1700, 850);
 
+	if (spaceShip->liveCounts <= 0) {
+		drawText("Game Over", 900, 450);
+	}
+	
+	if (isShipCollide) {
+		drawCircle(20, spaceShip->radius, spaceShip->centerPoint.x, spaceShip->centerPoint.y);
+		isShipCollide = false;
+	}
+	
 	/* this makes it actually show up on the screen */
 	glutSwapBuffers();
 }
@@ -287,9 +298,10 @@ void Game::update()
 			if (smallAsteroidList.at(j)->checkIfCollide(spaceShip)) {
 				DeleteSprite(smallAsteroidList.at(j));
 				smallAsteroidList.erase(smallAsteroidList.begin() + j);
-				//spaceShip->decreaseShield(1);
+				spaceShip->decreaseShield(1);
 				score += 10;
 				j--;
+				isShipCollide = true;
 			}
 		}
 		catch (...) {
@@ -316,7 +328,8 @@ void Game::update()
 					SpawnSmallAsteroid(largeAsteroidList.at(i)->position);
 				DeleteSprite(largeAsteroidList.at(i));
 				largeAsteroidList.erase(largeAsteroidList.begin() + i);
-				//spaceShip->decreaseShield(2);
+				spaceShip->decreaseShield(2);
+				isShipCollide = true;
 				i--;
 			}
 		}
@@ -325,7 +338,7 @@ void Game::update()
 		}
 	}
 
-	//
+	
 
 }
 

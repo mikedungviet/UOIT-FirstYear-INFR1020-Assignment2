@@ -154,6 +154,7 @@ public:
 	/* game state info */
 	GameStateInfo stateInfo;
 	int score;
+	bool isShipCollide;
 
 	// here is the sprite to draw to the screen
 	SpaceShip *spaceShip;
