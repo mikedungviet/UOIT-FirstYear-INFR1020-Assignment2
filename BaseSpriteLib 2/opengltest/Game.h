@@ -13,10 +13,15 @@
 #include "IL/ilut.h"
 #include "Sprite.h"
 #include "Bullet.h"
+#include "SpaceShip.h"
+#include "Asteroid.h"
 #include "HorizontalScrollingBackground.h"
 #include "Timer.h"
+#include <time.h>
+#include <cstdlib>
 #include <algorithm>
 #include <cmath>
+#include <string>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -49,6 +54,7 @@ typedef struct _InputInfo
 	bool downKeyArrow = false;
 	bool leftKeyArrow = false;
 	bool rightKeyArrow = false;
+	bool spaceKey = false;
 
 }InputInfo;
 
@@ -130,22 +136,37 @@ public:
 	void drawTestPrimitives(); // test function
 
 	/* update routines, the game loop */
+	void ProcessKeyInput();
 	void update(); // called from main frequently
+	void SpawnSmallAsteroid();
+	void SpawnSmallAsteroid(Vector3);
+	void SpawnBullet();
+	void SpawnLargeAsteroid();
+	void DeleteSprite(Sprite*);
 
 	/* input callback functions */
-	void keyboardDown(unsigned char key, int mouseX, int mouseY);
-	void keyboardUp(unsigned char key, int mouseX, int mouseY);
-	void mouseClicked(int button, int state, int x, int y);
-	void mouseMoved(int x, int y);
+	void keyboardDown(unsigned char key, int , int);
+	void keyboardUp(unsigned char key,int, int);
 	/*********************************/
 	/* DATA */
 	/*********************************/
 	
 	/* game state info */
 	GameStateInfo stateInfo;
+	int score;
+	bool isShipCollide;
 
 	// here is the sprite to draw to the screen
+	SpaceShip *spaceShip;
+
+	Bullet *defaultBullet;
+	std::vector<Bullet*> bulletList;
 	
+	Asteroid *defaultSmallAsteroid;
+	std::vector<Asteroid *> smallAsteroidList;
+
+	Asteroid *defaultLargeAsteroid;
+	std::vector<Asteroid*> largeAsteroidList;
 	
 	// the background scroller
 	HorizontalScrollingBackground *bg;
@@ -160,6 +181,7 @@ public:
 	   or      spritesToUpdateForCollisions 
 	   etc....
     */
+	
 
 	/* timer's for rendering and animation/physics update */
 	Timer *renderingTimer;

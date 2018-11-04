@@ -19,6 +19,12 @@ public:
 		z = Z;
 	}
 
+	void set(Vector3 anotherVec) {
+		x = anotherVec.x;
+		y = anotherVec.y;
+		z = anotherVec.z;
+	}
+
 	// operator overloading
 	// this is just scalar multiplication
 	Vector3 operator*(const float scalar) const
@@ -52,6 +58,21 @@ public:
 		result.y = y / scalar;
 		result.z = z / scalar;
 		return result;
+	}
+
+	Vector3 operator- (const Vector3 rhs) const {
+		Vector3 result;
+		result.x = x - rhs.x;
+		result.y = y - rhs.y;
+		result.z = z - rhs.z;
+		return result;
+	}
+
+	bool operator!=(const float value) {
+		if (x == value && y != value) {
+			return true;
+		}
+		return false;
 	}
 
 	//Member Functions

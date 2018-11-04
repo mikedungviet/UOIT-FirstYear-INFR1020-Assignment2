@@ -12,8 +12,10 @@
 #include "IL/ilu.h"
 #include "IL/ilut.h"
 #include "Vector3.h"
-
+#include <cmath>
 #include <string>
+
+#define M_PI 3.14159265358979323846
 
 class XY_Coordinate
 {
@@ -75,6 +77,7 @@ class Sprite
 {
 public:
 	Sprite(std::string spriteSheetFilename);
+	//Sprite(const Sprite&);
 	~Sprite(void);
 
 	void loadSpriteSheet(const char *filename);
@@ -82,21 +85,39 @@ public:
 	void setNumberOfAnimations(int num);
 	void addSpriteAnimFrame(int animationNumber, int x, int y);
 	void addSpriteAnimRow(int animationNumber, float startX, float startY, float spacingX, float spacingY, int numFrames);
+	void updateCenterPoint();
+	void updateOutOfScreenPosition();
+	virtual bool checkIfCollide(Sprite *);
+	
+	//Setters
+	virtual void setRadius() {
+		radius = sqrt(pow(sz.width/2.0f, 2) + pow(sz.height/2.0f,2));
+	}
+
+	void setRadius(float value) {
+		radius = value;
+	}
 
 	void setLayerID(float value) {
 		layerID = value;
 	}
 
-	void setCenter(float x, float y) {
+	void setCenterForRotation(float x, float y) {
 		centerX = x; 
 		centerY = y;
 	}
-	void setPosition(float x, float y) {
-		positionX = x; positionY = y;
-		position.x = x;
-		position.y = y;
-		position.z = 0;
+
+	void setPosition(Vector3 newPosition) {
+		position.x = newPosition.x;
+		position.y = newPosition.y;
+		position.z = newPosition.z;
 	}
+
+	void setCurrentAnimation(int anim) {
+		currentAnimation = anim;
+		if (currentAnimation >= animations.size()) currentAnimation = 0;
+	}
+
 	void addOrientation(float _theta) {
 		theta += _theta;
 	}
@@ -105,10 +126,8 @@ public:
 	/* drawing */
 	virtual void draw();
 
-	void setCurrentAnimation(int anim) {
-		currentAnimation = anim;
-		if(currentAnimation >= animations.size()) currentAnimation = 0;
-	}
+
+
 	/* update */
 	void addForce(Vector3 v);
 	virtual void update(float);
@@ -122,21 +141,22 @@ public:
 	SpriteSheetInfo sheet;
 	int numberOfAnimations;
 	int currentAnimation;
+	std::string fileName;
 
 	/* position/center/orientation */
 	/* these should be VECTORS! */
-	float positionX,positionY;
-
-
-	Vector3 position;  // use this!  Its a vector!!
+	Vector3 centerPoint;
+	Vector3 position; 
 	float centerX,centerY;
 	float theta;
+	float radius;
 
 
 	// physics;
 	Vector3 velocity;
 	Vector3 acceleration;
 	Vector3 force;
+	Vector3 frictionForce;
 	float mass;
 
 

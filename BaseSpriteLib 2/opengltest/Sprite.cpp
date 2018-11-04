@@ -3,7 +3,8 @@
 /* THE SPRITE CLASS DEFINITION */
 Sprite::Sprite(std::string spriteSheetFilename)
 {
-	this->loadSpriteSheet(spriteSheetFilename.c_str());
+	fileName = spriteSheetFilename;
+	this->loadSpriteSheet(fileName.c_str());
 	currentAnimation = 0;
 	layerID = 0;
 	theta = 0;
@@ -23,33 +24,62 @@ void Sprite::addForce(Vector3 f)
 }
 
 /* update()
-* - this function could update things like physics and position
+* - This function checks if the x or y is bigger/ smaller than 
+* the screen size
 */
 void Sprite::update(float deltaTime)
 {
-	// physics update goes here!!!!
-	acceleration = force; //update new acceleration
-	velocity = velocity + acceleration * deltaTime; //update new velocity
-	position = position + velocity * deltaTime; //update new position
+	// apply friction if the object is moving
+	if (velocity.x != 0 || velocity.y != 0) {
+		Vector3 normalizedVelocity = velocity.NormalizeVector();
+		frictionForce = Vector3(-75 * normalizedVelocity.x, -75 * normalizedVelocity.y, 0);
+		acceleration = force + frictionForce;
+	}
+	//Friction is not applied when the object is not moving
+	else {
+		acceleration = force;
+	}
+	velocity = velocity + acceleration * deltaTime;
+	position = position + velocity * deltaTime;
 
-	// this should be collisions here!  
-	// but for this example, just checking if we are at a particular pixel location on Y is fine....
-	if (position.y <= -105){
-		position.y = 455;
-	}
-	if (position.y >= 456) {
-		position.y = -104;
-	}
+	updateOutOfScreenPosition();
+	updateCenterPoint();
 
-	if (position.x >= 1200) {
-		position.x = -114;
-	}
-	if (position.x < -115) {
-		position.x = 1199;
-	}
-	
 }
 
+void Sprite::updateOutOfScreenPosition() {
+	if (position.y <= -25) {
+		position.y = 899;
+	}
+	if (position.y >= 900) {
+		position.y = -24;
+	}
+
+	if (position.x >= 1800) {
+		position.x = 1;
+	}
+	if (position.x <= 0) {
+		position.x = 1799;
+	}
+}
+
+void Sprite::updateCenterPoint() {
+	centerPoint.x = position.x + sz.width / 2.0f;
+	centerPoint.y = position.y + sz.height / 2.0f;
+	centerPoint.z = 0;
+}
+
+bool Sprite::checkIfCollide(Sprite *otherSpriteToCompare) {
+	//Calculate variable
+	float sumOfRadii = pow(radius + otherSpriteToCompare->radius,2);
+	float distance = pow(centerPoint.x - otherSpriteToCompare->centerPoint.x,2)
+					+ pow(centerPoint.y-otherSpriteToCompare->centerPoint.y,2);
+
+	//Return
+	if (distance < sumOfRadii)
+		return true;
+	return false;
+}
 
 Sprite::~Sprite(void)
 {

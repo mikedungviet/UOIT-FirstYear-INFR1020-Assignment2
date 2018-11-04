@@ -13,10 +13,10 @@
 /******************************************/
 /* GLOBAL VARIABLES */
 /******************************************/
-#define WINDOW_SCREEN_WIDTH 1200
-#define WINDOW_SCREEN_HEIGHT 456
-#define WINDOW_WIDTH 1200
-#define WINDOW_HEIGHT 456
+#define WINDOW_SCREEN_WIDTH 1800
+#define WINDOW_SCREEN_HEIGHT 900
+#define WINDOW_WIDTH 1800
+#define WINDOW_HEIGHT 900
 
 /*********************************/
 /* GLOBAL SPRITE INFO */
@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 	glutInit(&argc,argv);
 	glutInitWindowSize(WINDOW_WIDTH,WINDOW_HEIGHT);
 	glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE);
-	glutCreateWindow("MY GAME");
+	glutCreateWindow("Mike Pham-10706123- Assignment 2");
 
 	/* set up our function callbacks */
 	glutDisplayFunc(DisplayCallbackFunction);
