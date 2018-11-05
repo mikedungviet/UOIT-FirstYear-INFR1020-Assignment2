@@ -10,7 +10,7 @@ public:
 	Vector3 frictionForce;
 
 	SpaceShip(std::string spriteSheetFilename) :Sprite(spriteSheetFilename),
-		shieldCounts{ 4 }, liveCounts{ 4 } {}
+		shieldCounts{ 4 }, liveCounts{ 3 } {}
 	~SpaceShip() {}
 
 
